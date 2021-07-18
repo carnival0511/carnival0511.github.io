@@ -8,15 +8,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hexo</title>
+  <title>深浅拷贝 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Hexo">
-  <meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="这是我的第一篇博客文章:主要记录MarkDown的基本语法">
+  <meta property="og:type" content="article">
+  <!-- <meta property="og:title" content="My First Blog"> -->
+  <meta property="og:url" content="http://yoursite.com/2019/07/04/我的第一篇博客文章/index.html">
   <meta property="og:site_name" content="Hexo">
+  <meta property="og:description" content="这是我的第一篇博客文章:主要记录MarkDown的基本语法">
   <meta property="og:locale" content="default">
+  <meta property="og:image"
+    content="https://gss0.bdstatic.com/-4o3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=60d12a1572cb0a4681228c3b5b62f63e/b3b7d0a20cf431ada7cd8bd64236acaf2fdd98c6.jpg">
+  <meta property="og:updated_time" content="2019-07-09T11:09:35.582Z">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Hexo">
+  <!-- <meta name="twitter:title" content="My First Blog"> -->
+  <meta name="twitter:description" content="这是我的第一篇博客文章:主要记录MarkDown的基本语法">
+  <meta name="twitter:image"
+    content="https://gss0.bdstatic.com/-4o3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=60d12a1572cb0a4681228c3b5b62f63e/b3b7d0a20cf431ada7cd8bd64236acaf2fdd98c6.jpg">
 
   <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
 
@@ -154,15 +162,14 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-
-            <article id="post-我的第二篇博客文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="copy" class="article article-type-post " itemscope itemprop="blogPost">
               <div class="article-inner">
 
                 <header class="article-header">
 
 
-                  <h1 itemprop="name">
-                    <a class="article-title" href="/20210718/">My Second Blog</a>
+                  <h1 class="article-title" itemprop="name">
+                    深浅拷贝
                   </h1>
 
 
@@ -174,15 +181,198 @@
 
                 </header>
 
-                <div class="article-entry" itemprop="articleBody">
+                
+                    <article class="article fmt article-content ">
+                      <h2 id="item-1"><strong>JS中数据类型</strong></h2>
+                      <ul>
+                        <li>基本数据类型： undefined、null、Boolean、Number、String和Symbol(ES6)</li>
+                        <li>引用数据类型： Object(Array, Date, RegExp, Function)</li>
+                      </ul>
+                      <h2 id="item-2"><strong>深浅拷贝</strong></h2>
+                      <p><strong>深浅拷贝只是针对引用类型的</strong>，因为引用类型是存放在堆内存中，在栈地址有一个或者多个地址来指向推内存的某一数据</p>
+                      <h3 id="item-2-1"><strong>浅拷贝：</strong></h3>
+                      <p>被复制对象的所有变量都含有与原来的对象相同的值，而所有的对其他对象的引用仍然指向原来的对象。</p>
+                      <p>浅拷贝仅仅复制所考虑的对象，而不复制它所引用的对象，如果你修改了“副本”的值，那么原来的对象也会被修改</p>
+                      <h3 id="item-2-2"><strong>深拷贝：</strong></h3>
+                      <p>深拷贝是一个整个独立的对象拷贝，深拷贝会拷贝所有的属性,并拷贝属性指向的动态分配的内存。当对象和它所引用的对象一起拷贝时即发生深拷贝。深拷贝相比于浅拷贝速度较慢并且花销较大。</p>
+                      <p>深拷贝把要复制的对象所引用的对象都复制了一遍。如果你修改了“副本”的值，那么原来的对象不会被修改，两者是相互独立的。</p>
+                      <h2 id="item-3"><strong>用例子看深浅拷贝</strong></h2>
+                      <h3 id="item-3-3"><strong>赋值实现浅拷贝</strong></h3>
+                      <div class="widget-codetool" style="display: none;">
+                        <div class="widget-codetool--inner">
+                          <button type="button" class="btn btn-dark far fa-copy rounded-0 sflex-center copyCode"
+                            data-toggle="tooltip" data-placement="top" data-clipboard-text="let arr = [22, 44, 66, 88];
+let co = arr;
+co[0] = 11;
+console.log(arr, co);" title="" data-original-title="复制"></button>
+                        </div>
+                      </div>
+                      <pre class="javascript hljs"><code class="javascript"><span class="hljs-keyword">let</span> arr = [<span class="hljs-number">22</span>, <span class="hljs-number">44</span>, <span class="hljs-number">66</span>, <span class="hljs-number">88</span>];
+<span class="hljs-keyword">let</span> co = arr;
+co[<span class="hljs-number">0</span>] = <span class="hljs-number">11</span>;
+<span class="hljs-built_in">console</span>.log(arr, co);</code></pre>
+                      <p>结果如图：<br><span class="img-wrap"><img class="lazy entered loaded exited"
+                            referrerpolicy="no-referrer" data-src="/img/bVbmJFr?w=315&amp;h=29" alt="图片描述" title="图片描述"
+                            data-ll-status="loaded" src="result5.png"></span></p>
+                      <p>我们本来想把 arr 赋值给 co ，当我们修改co数组中第一个元素时，却发现了原始数组arr发生了改变<br>很显然，这就是一个浅拷贝的例子</p>
+                      <blockquote>
+                        原理：<br>对于引用类型，赋值操作符只是把存放在栈内容中的指针赋值给另外一个变量。<br>所以在赋值完成后，在栈内存就有两个指针指向堆内存同一个数据。<br>也就可以说两个变量在共用着同一个数据，这就是浅拷贝。
+                      </blockquote>
+                      <h3 id="item-3-4"><strong>JSON实现深拷贝</strong></h3>
+                      <div class="widget-codetool" style="display: none;">
+                        <div class="widget-codetool--inner">
+                          <button type="button" class="btn btn-dark far fa-copy rounded-0 sflex-center copyCode"
+                            data-toggle="tooltip" data-placement="top" data-clipboard-text="let arr = [22, 44, 66, 88];
+let jso = JSON.parse(JSON.stringify(arr));
+jso[0] = 11;
+console.log(arr, jso);" title="" data-original-title="复制"></button>
+                        </div>
+                      </div>
+                      <pre class="javascript hljs"><code class="javascript"><span class="hljs-keyword">let</span> arr = [<span class="hljs-number">22</span>, <span class="hljs-number">44</span>, <span class="hljs-number">66</span>, <span class="hljs-number">88</span>];
+<span class="hljs-keyword">let</span> jso = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-built_in">JSON</span>.stringify(arr));
+jso[<span class="hljs-number">0</span>] = <span class="hljs-number">11</span>;
+<span class="hljs-built_in">console</span>.log(arr, jso);</code></pre>
+                      <p>结果如图：<br><span class="img-wrap"><img class="lazy entered loaded exited"
+                            referrerpolicy="no-referrer" data-src="/img/bVbmJGF?w=313&amp;h=24" alt="图片描述" title="图片描述"
+                            data-ll-status="loaded" src="result4.png"></span></p>
+                      <p>对比之前赋值的结果，我们发现原来的数组arr并没有被改变，可以说两者是相互独立的<br>很显然，这就是一个深拷贝的例子</p>
+                      <blockquote>原理：<br>JSON.parse() 方法用于将一个 JSON 字符串转换为对象。<br>JSON.stringify() 方法用于将 JavaScript
+                        值（通常为对象或数组）转换为 JSON
+                        字符串。<br>在JSON.stringify()完成后，对象就转为了字符串，也就可以说实实在在的复制了一个值，不存在引用之说。<br>再利用JSON.parse()转为对象，这样达到深拷贝的目的
+                      </blockquote>
+                      <p><strong>JSON实现深拷贝的缺陷：</strong><br>来看下面例子：</p>
+                      <div class="widget-codetool" style="display: none;">
+                        <div class="widget-codetool--inner">
+                          <button type="button" class="btn btn-dark far fa-copy rounded-0 sflex-center copyCode"
+                            data-toggle="tooltip" data-placement="top" data-clipboard-text="let obj = {
+    nul: null,
+    und: undefined,
+    sym: Symbol('sym'),
+    str: 'str',
+    bol: true,
+    num: 45,
+    arr: [1, 4],
+    reg: /[0-9]/,
+    dat: new Date(),
+    fun: function() {},  
+}
+console.log(JSON.parse(JSON.stringify(obj)))" title="" data-original-title="复制"></button>
+                        </div>
+                      </div>
+                      <pre
+                        class="javascript hljs"><code class="javascript"><span class="hljs-keyword">let</span> obj = {
+    <span class="hljs-attr">nul</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">und</span>: <span class="hljs-literal">undefined</span>,
+    <span class="hljs-attr">sym</span>: <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'sym'</span>),
+    <span class="hljs-attr">str</span>: <span class="hljs-string">'str'</span>,
+    <span class="hljs-attr">bol</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">num</span>: <span class="hljs-number">45</span>,
+    <span class="hljs-attr">arr</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">4</span>],
+    <span class="hljs-attr">reg</span>: <span class="hljs-regexp">/[0-9]/</span>,
+    dat: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(),
+    <span class="hljs-attr">fun</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{},  
+}
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">JSON</span>.parse(<span class="hljs-built_in">JSON</span>.stringify(obj)))</code></pre>
+                      <p>结果如图：<br><span class="img-wrap"><img class="lazy entered loaded exited"
+                            referrerpolicy="no-referrer" alt="图片描述" title="图片描述"
+                            data-ll-status="loaded" src="result3.png"></span></p>
+                      <p>我们可以发现有些属性被忽略了：</p>
+                      <ul>
+                        <li>undefined</li>
+                        <li>symbol</li>
+                        <li>function</li>
+                      </ul>
+                      <p>可以看得出来JSON实现深拷贝也有不足之处</p>
+                      <h2 id="item-4"><strong>ES6新特性实现拷贝</strong></h2>
+                      <h3 id="item-4-5"><strong>Object.assign()</strong></h3>
+                      <p>Object.assign方法用于对象的合并，将源对象（source）的所有可枚举属性，复制到目标对象（target）。<br><strong>Object.assign(target,
+                          ...sources)</strong><br>target目标对象。 sources源对象。 返回的是目标对象</p>
+                      <div class="widget-codetool" style="display: none;">
+                        <div class="widget-codetool--inner">
+                          <button type="button" class="btn btn-dark far fa-copy rounded-0 sflex-center copyCode"
+                            data-toggle="tooltip" data-placement="top" data-clipboard-text="let obj = {
+    a: {
+        a1: 'a1'
+    },
+    b: 'b'
+}
+let ass = Object.assign({}, obj);
+ass.a.a1 = 'aaa';
+aconsole.log(obj, ass);" title="" data-original-title="复制"></button>
+                        </div>
+                      </div>
+                      <pre class="javascript hljs"><code class="javascript"><span class="hljs-keyword">let</span> obj = {
+    <span class="hljs-attr">a</span>: {
+        <span class="hljs-attr">a1</span>: <span class="hljs-string">'a1'</span>
+    },
+    <span class="hljs-attr">b</span>: <span class="hljs-string">'b'</span>
+}
+<span class="hljs-keyword">let</span> ass = <span class="hljs-built_in">Object</span>.assign({}, obj);
+ass.a.a1 = <span class="hljs-string">'aaa'</span>;
+aconsole.log(obj, ass);</code></pre>
+                      <p>我们看下结果：<br><span class="img-wrap"><img class="lazy entered loaded exited"
+                            referrerpolicy="no-referrer" alt="图片描述" title="图片描述"
+                            data-ll-status="loaded" src="result2.png"></span></p>
+                      <p>我们可以看到a1的值被改变，而b的值没有被改变，说明了：</p>
+                      <blockquote>Obejct.assign()只能对一层进行深拷贝 <br>如果拷贝的层数超过了一层的话，那么就会进行浅拷贝</blockquote>
+                      <h3 id="item-4-6">展开运算符(...)</h3>
+                      <p>对象的扩展运算符（...）用于取出参数对象的所有可遍历属性，拷贝到当前对象之中。</p>
+                      <div class="widget-codetool" style="display:none;">
+                        <div class="widget-codetool--inner">
+                          <button type="button" class="btn btn-dark far fa-copy rounded-0 sflex-center copyCode"
+                            data-toggle="tooltip" data-placement="top" data-clipboard-text="let obj = {
+    a: {
+        a1: 'a1'
+    },
+    b: 'b'
+}
+let ass = {...obj};
+ass.a.a1 = 'aaa';
+ass.b = 'bbb'" title="" data-original-title="复制"></button>
+                        </div>
+                      </div>
+                      <pre class="javascript hljs"><code class="javascript"><span class="hljs-keyword">let</span> obj = {
+    <span class="hljs-attr">a</span>: {
+        <span class="hljs-attr">a1</span>: <span class="hljs-string">'a1'</span>
+    },
+    <span class="hljs-attr">b</span>: <span class="hljs-string">'b'</span>
+}
+<span class="hljs-keyword">let</span> ass = {...obj};
+ass.a.a1 = <span class="hljs-string">'aaa'</span>;
+ass.b = <span class="hljs-string">'bbb'</span></code></pre>
+                      <p>结果如下：<br><span class="img-wrap"><img class="lazy" referrerpolicy="no-referrer"
+                            src="result.png" alt="图片描述" title="图片描述"></span></p>
+                      <blockquote>扩展运算符只能对一层进行深拷贝 <br>如果拷贝的层数超过了一层的话，那么就会进行浅拷贝</blockquote>
+                      <p>那么我们可以看到Object.assign(）和展开原算符对于深浅拷贝的结果是一样。<br>如果拷贝的层数超过了一层的话，那么就会进行浅拷贝<br>所以要慎用这两个来进行拷贝!!!</p>
+                    </article>
+                    
+                  </div>
 
-                  <h1 id="copy"><a href="#copy" class="headerlink"
-                      title="深浅拷贝"></a>关于深浅拷贝</h1>
+                  <hr>
+                  <hr>
+                  <hr>
+                  <hr>
+                  <div class="page-reward">
+                    <a href="javascript:;" class="page-reward-btn tooltip-top">
+                      <div class="tooltip tooltip-east">
+                        <span class="tooltip-item">
+                          赏
+                        </span>
+                        <span class="tooltip-content">
+                          <span class="tooltip-text">
+                            <span class="tooltip-inner">
+                              <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                                  class="icon icon-quo-right"></i></p>
+                              <div class="reward-box">
 
-                  <a class="article-more-a" href="/20210718/#more">more >></a>
 
-
-
+                              </div>
+                            </span>
+                          </span>
+                        </span>
+                      </div>
+                    </a>
+                  </div>
 
                 </div>
                 <div class="article-info article-info-index">
@@ -191,63 +381,76 @@
 
 
 
-                  <p class="article-more-link">
-                    <a class="article-more-a" href="/20210718/">展开全文 >></a>
-                  </p>
 
 
+
+                  <div class="share-btn share-icons tooltip-left">
+                    <div class="tooltip tooltip-east">
+                      <span class="tooltip-item">
+                        <a href="javascript:;" class="share-sns share-outer">
+                          <i class="icon icon-share"></i>
+                        </a>
+                      </span>
+                      <span class="tooltip-content">
+                        <div class="share-wrap">
+                          <div class="share-icons">
+                            <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+                              <i class="icon icon-weibo"></i>
+                            </a>
+                            <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+                              <i class="icon icon-weixin"></i>
+                            </a>
+                            <a class="qq share-sns" href="javascript:;" data-type="qq">
+                              <i class="icon icon-qq"></i>
+                            </a>
+                            <a class="douban share-sns" href="javascript:;" data-type="douban">
+                              <i class="icon icon-douban"></i>
+                            </a>
+                            <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+                              <i class="icon icon-qzone"></i>
+                            </a>
+                            <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+                              <i class="icon icon-facebook"></i>
+                            </a>
+                            <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+                              <i class="icon icon-twitter"></i>
+                            </a>
+                            <a class="google share-sns" href="javascript:;" data-type="google">
+                              <i class="icon icon-google"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="page-modal wx-share js-wx-box">
+                    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+                    <p>扫一扫，分享到微信</p>
+                    <div class="wx-qrcode">
+                      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/04/我的第一篇博客文章/"
+                        alt="微信分享二维码">
+                    </div>
+                  </div>
+
+                  <div class="mask js-mask"></div>
 
                   <div class="clearfix"></div>
                 </div>
               </div>
             </article>
 
-            <article id="post-我的第一篇博客文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-              <div class="article-inner">
 
-                <header class="article-header">
+            <nav id="article-nav">
 
 
-                  <h1 itemprop="name">
-                    <a class="article-title" href="/2019/07/04/我的第一篇博客文章/">My First Blog</a>
-                  </h1>
+              <a href="/2019/07/04/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+                <div class="article-nav-title">Hello World</div>
+                <i class="icon-circle-right"></i>
+              </a>
 
+            </nav>
 
-
-                  <a href="/2019/07/04/我的第一篇博客文章/" class="archive-article-date">
-                    <time datetime="2019-07-04T10:45:00.190Z" itemprop="datePublished"><i
-                        class="icon-calendar icon"></i>2019-07-04</time>
-                  </a>
-
-                </header>
-
-                <div class="article-entry" itemprop="articleBody">
-
-                  <h1 id="这是我的第一篇博客文章-主要记录MarkDown的基本语法"><a href="#这是我的第一篇博客文章-主要记录MarkDown的基本语法" class="headerlink"
-                      title="这是我的第一篇博客文章:主要记录MarkDown的基本语法"></a>这是我的第一篇博客文章:主要记录MarkDown的基本语法</h1>
-
-                  <a class="article-more-a" href="/2019/07/04/我的第一篇博客文章/#more">more >></a>
-
-
-
-
-                </div>
-                <div class="article-info article-info-index">
-
-
-
-
-
-                  <p class="article-more-link">
-                    <a class="article-more-a" href="/2019/07/04/我的第一篇博客文章/">展开全文 >></a>
-                  </p>
-
-
-
-                  <div class="clearfix"></div>
-                </div>
-              </div>
-            </article>
 
             <aside class="wrap-side-operation">
               <div class="mod-side-operation">
@@ -269,139 +472,7 @@
 
 
 
-            <article id="post-hello-world" class="article article-type-post  article-index" itemscope
-              itemprop="blogPost">
-              <div class="article-inner">
 
-                <header class="article-header">
-
-
-                  <h1 itemprop="name">
-                    <a class="article-title" href="/2019/07/04/hello-world/">Hello World</a>
-                  </h1>
-
-
-
-                  <a href="/2019/07/04/hello-world/" class="archive-article-date">
-                    <time datetime="2019-07-04T10:32:58.578Z" itemprop="datePublished"><i
-                        class="icon-calendar icon"></i>2019-07-04</time>
-                  </a>
-
-                </header>
-
-                <div class="article-entry" itemprop="articleBody">
-
-                  <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very
-                    first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a>
-                    for more info. If you get any problems when using Hexo, you can find the answer in <a
-                      href="https://hexo.io/docs/troubleshooting.html" target="_blank"
-                      rel="noopener">troubleshooting</a> or you can ask me on <a
-                      href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-                  <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start
-                  </h2>
-                  <h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink"
-                      title="Create a new post"></a>Create a new post</h3>
-                  <figure class="highlight bash">
-                    <table>
-                      <tr>
-                        <td class="gutter">
-                          <pre><span class="line">1</span><br></pre>
-                        </td>
-                        <td class="code">
-                          <pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre>
-                        </td>
-                      </tr>
-                    </table>
-                  </figure>
-
-                  <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a>
-                  </p>
-                  <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3>
-                  <figure class="highlight bash">
-                    <table>
-                      <tr>
-                        <td class="gutter">
-                          <pre><span class="line">1</span><br></pre>
-                        </td>
-                        <td class="code">
-                          <pre><span class="line">$ hexo server</span><br></pre>
-                        </td>
-                      </tr>
-                    </table>
-                  </figure>
-
-                  <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-                  <h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink"
-                      title="Generate static files"></a>Generate static files</h3>
-                  <figure class="highlight bash">
-                    <table>
-                      <tr>
-                        <td class="gutter">
-                          <pre><span class="line">1</span><br></pre>
-                        </td>
-                        <td class="code">
-                          <pre><span class="line">$ hexo generate</span><br></pre>
-                        </td>
-                      </tr>
-                    </table>
-                  </figure>
-
-                  <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank"
-                      rel="noopener">Generating</a></p>
-                  <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink"
-                      title="Deploy to remote sites"></a>Deploy to remote sites</h3>
-                  <figure class="highlight bash">
-                    <table>
-                      <tr>
-                        <td class="gutter">
-                          <pre><span class="line">1</span><br></pre>
-                        </td>
-                        <td class="code">
-                          <pre><span class="line">$ hexo deploy</span><br></pre>
-                        </td>
-                      </tr>
-                    </table>
-                  </figure>
-
-                  <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank"
-                      rel="noopener">Deployment</a></p>
-
-
-
-
-                </div>
-                <div class="article-info article-info-index">
-
-
-
-
-
-                  <p class="article-more-link">
-                    <a class="article-more-a" href="/2019/07/04/hello-world/">展开全文 >></a>
-                  </p>
-
-
-
-                  <div class="clearfix"></div>
-                </div>
-              </div>
-            </article>
-
-            <aside class="wrap-side-operation">
-              <div class="mod-side-operation">
-
-                <div class="jump-container" id="js-jump-container" style="display:none;">
-                  <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                    <i class="icon-font icon-back"></i>
-                  </a>
-                  <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                    <i class="icon-font icon-plane jump-plane"></i>
-                  </div>
-                </div>
-
-
-              </div>
-            </aside>
 
 
 
@@ -419,10 +490,6 @@
             <div class="footer-left">
               &copy; 2019 carnival
             </div>
-            <div class="footer-right">
-              <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a
-                href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-            </div>
           </div>
         </div>
       </footer>
@@ -430,8 +497,8 @@
     <script>
       var yiliaConfig = {
         mathjax: false,
-        isHome: true,
-        isPost: false,
+        isHome: false,
+        isPost: true,
         isArchive: false,
         isTag: false,
         isCategory: false,
