@@ -154,8 +154,7 @@
         <div class="mobile-mask" style="display:none" q-show="isShow"></div>
       </nav>
 
-      <div id="wrapper" class="body-wrap">
-        
+      <div id="wrapper" class="body-wrap" style="margin-left: 50px;">
         <div class="menu-l">
           <div class="canvas-wrap">
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1"
@@ -163,218 +162,231 @@
           </div>
           <div id="js-content" class="content-ll">
             <article id="copy" class="article article-type-post " itemscope itemprop="blogPost">
-              <h1 class="article-title" data-v-4a869969="">
-                React事件传参
-                <!----></h1>
-              <div itemprop="articleBody" class="article-content" data-v-4a869969=""><div class="markdown-body"><style>.markdown-body{word-break:break-word;line-height:1.75;font-weight:400;font-size:15px;overflow-x:hidden;color:#333}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{line-height:1.5;margin-top:35px;margin-bottom:10px;padding-bottom:5px}.markdown-body h1{font-size:30px;margin-bottom:5px}.markdown-body h2{padding-bottom:12px;font-size:24px;border-bottom:1px solid #ececec}.markdown-body h3{font-size:18px;padding-bottom:0}.markdown-body h4{font-size:16px}.markdown-body h5{font-size:15px}.markdown-body h6{margin-top:5px}.markdown-body p{line-height:inherit;margin-top:22px;margin-bottom:22px}.markdown-body img{max-width:100%}.markdown-body hr{border:none;border-top:1px solid #ddd;margin-top:32px;margin-bottom:32px}.markdown-body code{word-break:break-word;border-radius:2px;overflow-x:auto;background-color:#fff5f5;color:#ff502c;font-size:.87em;padding:.065em .4em}.markdown-body code,.markdown-body pre{font-family:Menlo,Monaco,Consolas,Courier New,monospace}.markdown-body pre{overflow:auto;position:relative;line-height:1.75}.markdown-body pre>code{font-size:12px;padding:15px 12px;margin:0;word-break:normal;display:block;overflow-x:auto;color:#333;background:#f8f8f8}.markdown-body a{text-decoration:none;color:#0269c8;border-bottom:1px solid #d1e9ff}.markdown-body a:active,.markdown-body a:hover{color:#275b8c}.markdown-body table{display:inline-block!important;font-size:12px;width:auto;max-width:100%;overflow:auto;border:1px solid #f6f6f6}.markdown-body thead{background:#f6f6f6;color:#000;text-align:left}.markdown-body tr:nth-child(2n){background-color:#fcfcfc}.markdown-body td,.markdown-body th{padding:12px 7px;line-height:24px}.markdown-body td{min-width:120px}.markdown-body blockquote{color:#666;padding:1px 23px;margin:22px 0;border-left:4px solid #cbcbcb;background-color:#f8f8f8}.markdown-body blockquote:after{display:block;content:""}.markdown-body blockquote>p{margin:10px 0}.markdown-body ol,.markdown-body ul{padding-left:28px}.markdown-body ol li,.markdown-body ul li{margin-bottom:0;list-style:inherit}.markdown-body ol li .task-list-item,.markdown-body ul li .task-list-item{list-style:none}.markdown-body ol li .task-list-item ol,.markdown-body ol li .task-list-item ul,.markdown-body ul li .task-list-item ol,.markdown-body ul li .task-list-item ul{margin-top:0}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:3px}.markdown-body ol li{padding-left:6px}.markdown-body .contains-task-list{padding-left:0}.markdown-body .task-list-item{list-style:none}@media (max-width:720px){.markdown-body h1{font-size:24px}.markdown-body h2{font-size:20px}.markdown-body h3{font-size:18px}}</style><p><strong>1.第一种方式，用一个箭头函数包在外面，因为这个箭头函数只有点击的时候才会执行，只有当这个箭头函数执行的时候，里面调用的方法才会执行</strong></p>
-<pre><code lang="bash" class="copyable">// 子组件负责传递参数
-<span><span>render</span></span>() {
-    <span>return</span> (
-        &lt;ol&gt;
-          {
-            this.props.todos.map(item =&gt; {
-              <span>return</span> (
-                &lt;li key={item.id}&gt;
-                  &lt;span&gt;{item.title}&lt;/span&gt;
-                  &lt;button onClick={() =&gt; {this.props.handleDelectItem(item.id)}}&gt;删除&lt;/button&gt;
-                &lt;/li&gt;
-              )
-            })
-          }
-        &lt;/ol&gt;
-    )
-  }
-<span class="copy-code-btn"></span></code></pre><pre><code lang="bash" class="copyable">// 父组件负责接受传过来的参数，进行处理
-handleDelectItem = (id) =&gt; {
-    const todos = this.state.todos.filter(item =&gt; item.id !== id)
-    this.setState({
-      todos
-    })
-  }
-  
-<span><span>render</span></span>() {
-    <span>return</span> (
-      &lt;div&gt;
-          &lt;ToDoList todos={this.state.todos} handleDelectItem={this.handleDelectItem}/&gt;
-      &lt;/div&gt;
-    );
-  }
-<span class="copy-code-btn"></span></code></pre><p><strong>注意：</strong></p>
-<p>如果在子组件中不用箭头函数将调用的方法包起来，该方法会立即执行（就相当于立即执行函数）</p>
-<pre><code lang="bash" class="copyable"><span><span>render</span></span>() {
-    <span>return</span> (
-        &lt;ol&gt;
-          {
-            this.props.todos.map(item =&gt; {
-              <span>return</span> (
-                &lt;li key={item.id}&gt;
-                  &lt;span&gt;{item.title}&lt;/span&gt;
-                  &lt;button onClick={ this.props.handleDelectItem(item.id)}&gt;删除&lt;/button&gt;
-                &lt;/li&gt;
-              )
-            })
-          }
-        &lt;/ol&gt;
-    )
-  }
-<span class="copy-code-btn"></span></code></pre><p><strong>2.第二种方式，使用bind，这个时候，可以用第二个参数来传递参数，因为bind不会立即执行</strong>(不用call是因为call方法会立即执行)</p>
-<pre><code lang="bash" class="copyable">// 子组件
-<span><span>render</span></span>() {
-    <span>return</span> (
-        &lt;ol&gt;
-          {
-            this.props.todos.map(item =&gt; {
-              <span>return</span> (
-                &lt;li key={item.id}&gt;
-                  &lt;span&gt;{item.title}&lt;/span&gt;
-                  &lt;button onClick={this.props.handleDelectItem.bind(this, item.id)}&gt;删除&lt;/button&gt;
-                &lt;/li&gt;
-              )
-            })
-          }
-        &lt;/ol&gt;
-    )
-  }
-<span class="copy-code-btn"></span></code></pre><pre><code lang="bash" class="copyable"> // 父组件
- handleDelectItem = (id) =&gt; {
-    const todos = this.state.todos.filter(item =&gt; item.id !== id)
-    this.setState({
-      todos
-    })
-  }
-  
-<span><span>render</span></span>() {
-    <span>return</span> (
-      &lt;div&gt;
-          &lt;ToDoList todos={this.state.todos} handleDelectItem={this.handleDelectItem}/&gt;
-      &lt;/div&gt;
-    );
-  }
-<span class="copy-code-btn"></span></code></pre><p><strong>3.第三种方式，使用原生的event来传递参数，把要传递的参数绑定到dom的自定义属性上</strong>（该方法，有待完善，删除功能还未实现）</p>
-<pre><code lang="bash" class="copyable">// 子组件
-handleDelectItemEvent = (e) =&gt; {
-      const id = (e.currentTarget.getAttribute(<span>'data-id'</span>))
-      console.log(<span>"里面的"</span>,id)
-      this.props.handleDelectItem(id)
-    }
-    
-<span><span>render</span></span>() {
-    <span>return</span> (
-        &lt;ol&gt;
-          {
-            this.props.todos.map(item =&gt; {
-              <span>return</span> (
-                &lt;li key={item.id}&gt;
-                  &lt;span&gt;{item.title}&lt;/span&gt;
-                  &lt;button data-id={item.id} onClick={this.handleDelectItemEvent}&gt;删除&lt;/button&gt;
-                &lt;/li&gt;
-              )
-            })
-          }
-        &lt;/ol&gt;
-    )
-  }
-<span class="copy-code-btn"></span></code></pre><pre><code lang="bash" class="copyable">// 父组件
-handleDelectItem = (id) =&gt; {
-    const todos = this.state.todos.filter(item =&gt; item.id !== id)
-    this.setState({
-      todos
-    })
-  }
-  
-<span><span>render</span></span>() {
-    <span>return</span> (
-      &lt;div&gt;
-          &lt;ToDoList todos={this.state.todos} handleDelectItem={this.handleDelectItem}/&gt;
-      &lt;/div&gt;
-    );
-  }
-<span class="copy-code-btn"></span></code></pre><p><strong>4.第四种方式，react官方推荐</strong></p>
-<pre><code lang="bash" class="copyable">// 子组件(ToDoItem为孙子组件)
-<span><span>render</span></span>() {
-    <span>return</span> (
-        &lt;ol&gt;
-          {
-            this.props.todos.map(item =&gt; {
-              <span>return</span> (
-                &lt;ToDoItem key={item.id} {...item} handleDelectItem={this.props.handleDelectItem}/&gt;
-              )
-            })
-          }
-        &lt;/ol&gt;
-    )
-  }
-<span class="copy-code-btn"></span></code></pre><pre><code lang="bash" class="copyable">// 孙子组件（handleRemove方法是祖先组件通过父组件在传给孙子组件）
-handleRemove = () =&gt; {
-    this.props.handleDelectItem(this.props.id)
-  }
-  <span><span>render</span></span>() {
-    console.log(this.props)
-    <span>return</span> (
-      &lt;li&gt;
-        &lt;span&gt;{this.props.title}&lt;/span&gt;
-        &lt;button onClick={this.handleRemove}&gt;删除&lt;/button&gt;
-      &lt;/li&gt;
-    )
-  }
-<span class="copy-code-btn"></span></code></pre><pre><code lang="bash" class="copyable">// 祖先组件
-handleDelectItem = (id) =&gt; {
-    const todos = this.state.todos.filter(item =&gt; item.id !== id)
-    this.setState({
-      todos
-    })
-  }
-  
-<span><span>render</span></span>() {
-    <span>return</span> (
-      &lt;div&gt;
-          &lt;ToDoList todos={this.state.todos} handleDelectItem={this.handleDelectItem}/&gt;
-      &lt;/div&gt;
-    );
-  }
-<span class="copy-code-btn"></span></code></pre><h2 data-id="heading-0">补充</h2>
-<p><strong>1.defaultProps定义静态属性，用于设置默认的Props(外面有传入，则用传入的，没有则使用默认的)</strong></p>
-<pre><code lang="bash" class="copyable">// 子组件
-static defaultProps = {
-    btnText: <span>'添加'</span>
-  }
- 
-  <span><span>render</span></span>() {
-    <span>return</span> (
-      &lt;div&gt;
-        &lt;button onClick={this.handleAddItem}&gt;{this.props.btnText}&lt;/button&gt;
-      &lt;/div&gt;
-    )
-  }
-<span class="copy-code-btn"></span></code></pre><p>外部有传入</p>
-<pre><code lang="bash" class="copyable">// 父组件
-<span><span>render</span></span>() {
-    <span>return</span> (
-      &lt;div&gt;
-        &lt;Input addToTitle={this.addToTitle} btnText=<span>'ADD'</span>/&gt;
-      &lt;/div&gt;
-    );
-  }
-<span class="copy-code-btn"></span></code></pre><p></p><figure><figcaption></figcaption></figure><p></p>
-<p>外部没有传入</p>
-<pre><code lang="bash" class="copyable">// 父组件
-<span><span>render</span></span>() {
-    <span>return</span> (
-      &lt;div&gt;
-        &lt;Input addToTitle={this.addToTitle}/&gt;
-      &lt;/div&gt;
-    );
-  }
-<span class="copy-code-btn"></span></code></pre><p></p><figure><figcaption></figcaption></figure><p></p>
-<p><strong>2.prop-types静态属性，用于检测props的类型（哪里要用就在哪里引入）</strong></p>
-<pre><code lang="bash" class="copyable">import PropTypes from <span>'prop-types'</span>
-<span class="copy-code-btn"></span></code></pre><p><strong>注意：</strong></p>
-<p>注意大小写，这里是PropTypes,用于props类型检查，这个需要安装（<strong>cnpm i prop-types -S</strong>）详情见npm官网<a target="_blank" href="https://link.juejin.cn?target=" title="" ref="nofollow noopener noreferrer"></a><a target="_blank" href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2F" title="https://www.npmjs.com/" ref="nofollow noopener noreferrer">www.npmjs.com/</a></p>
-<pre><code lang="bash" class="copyable">static propTypes = {
-    buttonText: PropTypes.string.isRequired
-  }
-<span class="copy-code-btn"></span></code></pre><p><strong>3.classname用于动态添加className到react组件，这个需要安装（cnpm i classname -S）</strong> 详情见npm官网<a target="_blank" href="https://link.juejin.cn?target=" title="" ref="nofollow noopener noreferrer"></a><a target="_blank" href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2F" title="https://www.npmjs.com/" ref="nofollow noopener noreferrer">www.npmjs.com/</a></p>
-</div></div>
+              <div class="article-inner">
+
+                <header class="article-header">
+
+
+                  <h1 class="article-title" itemprop="name">
+                    React Fiber
+                  </h1>
+
+
+
+                  <a href="/20210718/" class="archive-article-date">
+                    <time datetime="2021-08-01T10:45:00.190Z" itemprop="datePublished"><i
+                        class="icon-calendar icon"></i>2021-08-01</time>
+                  </a>
+
+                </header>
+
+
+                <div class="news-page article-page">
+                  <p></p>
+                  <h2>Fiber出现的背景?</h2>
+                  <p>
+                  在早期的 <a href="https://www.w3cschool.cn/react/">React</a> 版本中，也就是 React16.8 版本之前。</p>
+                  <p>
+                  大量的<code>同步计算任务</code>阻塞了浏览器的UI渲染。默认情况下，<code>JS运算</code>、<code>页面布局</code>和<code>页面绘制渲染</code>都是运行在浏览器的<code>主线程</code>当中，他们之间是<code>互斥</code>的关系。</p>
+                  <p>
+                  如果 JS 运算持续占用主线程，页面就没法得到及时的更新，当我们调用<code>setState</code>更新页面的时候，<a href="https://www.w3cschool.cn/react/">React</a> 会遍历应用的所有节点，与老的 dom 节点进行 diff 算法的对比，最小代价更新页面，<code>即使</code>这样，整个过程也是一气呵成，<code>不能被打断</code>的，如果页面元素很多，整个过程占用的时间就可能超过16毫秒，出现掉帧的现象。</p>
+                  <p>
+                  针对这一现象，<a href="https://www.w3cschool.cn/react/">React</a> 团队从框架层面对 web 页面的运行机制做了优化，此后，<code>Fiber</code>诞生了。</p>
+                  <p>
+                  说到16ms，我们来看这样的一个概念</p>
+                  <p></p>
+                  <h3>屏幕刷新率</h3>
+                  <p></p>
+                  <ul>
+                  <li>目前大多数设备的屏幕刷新率为60次/秒</li>
+                  <li>浏览器的渲染动画或页面的每一帧的速率也需要跟设备屏幕的刷新率保持一致。</li>
+                  <li>页面是一帧一帧绘制出来的，当每秒绘制的帧数(FPS)达到60时，页面是流畅的，小于这个值时，用户会感觉到卡顿。</li>
+                  <li>每个帧的预算时间是16.66毫秒（1秒/60）</li>
+                  <li>1s 60帧，所以我们书写代码时尽量不让一帧的工作量超过16ms</li>
+                  </ul>
+                  <p></p>
+                  <h2>Fiber的诞生</h2>
+                  <p>
+                  解决主线程长时间被 JS 晕眩占用这一问题的基本思路，是将<code>运算切割为多个步骤</code>，分批完成。也就是说在完成一部分任务之后， 将<code>控制权交回</code>给浏览器，让浏览器有时间再进行页面的渲染。等浏览器忙完之后，再继续之前React未完成的任务。</p>
+                  <p>
+                  旧版 React <code>通过递归</code>的方式进行渲染，使用的是 JS 引擎自身的函数调用栈，<strong>它会一直执行到栈空为止</strong>。</p>
+                  <p>
+                  而<code>Fiber</code>实现了自己的组件调用栈，它以链表的形式遍历组件树，可以灵活地暂停、继续和丢弃执行的任务。实现的方式是使用了 浏览器的<code>requestIdleCallback</code>这一 API。官方的解释是这样的：</p>
+                  <p></p>
+                  <blockquote>
+                  <p>window.requestIdleCallback()会在浏览器<code>空闲时期</code>依次调用函数，这就可以让开发者在<code>主事件循环</code>中执行<code>后台</code>或<code>优先级低</code>的任务，而且不会像对动画和用户交互这些延迟触发产生关键的事件影响。函数一般会按先进先调用的顺序执行，除非函数在浏览器调用它之前就到了它的超时时间。</p>
+                  </blockquote>
+                  <p></p>
+                  <h3>requestIdleCallback的核心用法</h3>
+                  <p></p>
+                  <ul>
+                  <li>希望快速响应用户，让用户觉得够快，不能阻塞用户的交互行为</li>
+                  <li>requestIdleCallback 使开发者能够在<code>主事件循环</code>上执行后台和<code>低优先级</code>的工作，而不会影响延迟关键事件，例如动画和输入的响应</li>
+                  <li>正常帧任务完成后<code>没超过16ms</code>，说明时间有赋予，此时就会执行<code>requestIdleCallback</code>里注册的任务</li>
+                  </ul>
+                  <p></p>
+                  <h3>requestIdleCallback执行流程</h3>
+                  <p>
+                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930006787384.jpg" alt="requestIdleCallback执行流程" title="requestIdleCallback执行流程" style="cursor: zoom-in;"></p>
+                  <p></p>
+                  <h2>Fiber是什么</h2>
+                  <p></p>
+                  <h3>Fiber是一个执行单元</h3>
+                  <p>
+                  Fiber 是一个执行单元，<strong>每次执行完一个执行单元, React 就会检查现在还剩多少时间</strong>，如果没有时间就将控制权让出去</p>
+                  <p>
+                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930047870679.jpg" alt="Fiber是一个执行单元" title="Fiber是一个执行单元" style="cursor: zoom-in;"></p>
+                  <p></p>
+                  <h3>Fiber是一种数据结构</h3>
+                  <p>
+                  <a href="https://www.w3cschool.cn/react/">React</a> 目前的做法是使用链表, 每个 VirtualDOM 节点内部表示为一个<code>Fiber</code>，它可以用一个 JS 对象来表示：</p>
+                  <p></p>
+                  <pre style="max-width: 100%; position: relative"><a class="code-copy right0" title="复制到剪切板"><i class="icon-copy"></i></a><code class="hljs javascript"><span class="hljs-keyword">const</span> fiber = {
+                    stateNode, <span class="hljs-comment">// 节点实例</span>
+                    child,     <span class="hljs-comment">// 子节点</span>
+                    sibling,   <span class="hljs-comment">// 兄弟节点</span>
+                    <span class="hljs-keyword">return</span>,    <span class="hljs-comment">// 父节点</span>
+                  }</code></pre>
+                  <p>
+                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930080984033.jpg" alt="Fiber是一种数据结构" title="Fiber是一种数据结构" style="cursor: zoom-in;"></p>
+                  <p></p>
+                  <h2>Fiber之前的协调阶段</h2>
+                  <p></p>
+                  <ul>
+                  <li>React 会<code>递归比对</code>VirtualDOM树，找出<code>需要变动</code>的节点，然后同步更新它们。这个过程 React 称为Reconcilation(协调)</li>
+                  <li>在Reconcilation期间，React 会<code>一直占用</code>着浏览器资源，一则会导致用户触发的事件得不到响应, 二则会导致掉帧，用户可能会感觉到卡顿</li>
+                  </ul>
+                  <p></p>
+                  <pre style="max-width: 100%; position: relative"><a class="code-copy right0" title="复制到剪切板"><i class="icon-copy"></i></a><code class="hljs javascript"><span class="hljs-keyword">let</span> root = {
+                    key: <span class="hljs-string">'A1'</span>,
+                    children: [
+                      {
+                        key: <span class="hljs-string">'B1'</span>,
+                        children: [
+                          {
+                            key: <span class="hljs-string">'C1'</span>,
+                            children: []
+                          },
+                          {
+                            key: <span class="hljs-string">'C2'</span>,
+                            children: []
+                          }
+                        ]
+                      },
+                      {
+                        key: <span class="hljs-string">'B2'</span>,
+                        children: []
+                      }
+                    ]
+                  }
+                  
+                  
+                  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">walk</span>(<span class="hljs-params">element</span>) </span>{
+                    doWork(element);
+                    element.children.forEach(walk);
+                  }
+                  
+                  
+                  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doWork</span>(<span class="hljs-params">element</span>) </span>{
+                    <span class="hljs-built_in">console</span>.log(element.key);
+                  }
+                  walk(root);</code></pre>
+                  <p></p>
+                  <blockquote>
+                  <p>在 Fiber 出现之前， React 会不断递归遍历虚拟 DOM 节点，占用着浏览器资源，积极地浪费性能，造成卡顿现象，且协调阶段是不能<code>被打断的</code>。</p>
+                  </blockquote>
+                  <p>
+                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930159603824.jpg" alt="React不断递归遍历虚拟DOM节点" title="React不断递归遍历虚拟DOM节点" style="cursor: zoom-in;"></p>
+                  <p></p>
+                  <blockquote>
+                  <p>Fiber 出现之后，通过某些 Fiber 调度策略合理分配 CPU 资源，让自己的<code>协调阶段变成可被终端</code>，<code>适时</code>地让 CPU（浏览器）执行权，提高了性能优化。</p>
+                  </blockquote>
+                  <p>
+                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930185486238.jpg" alt="协调阶段变成可被终端" title="协调阶段变成可被终端" style="cursor: zoom-in;"></p>
+                  <p></p>
+                  <h2>Fiber执行阶段</h2>
+                  <p>
+                  每次渲染有两个阶段：Reconciliation(协调\render阶段)和Commit(提交阶段)</p>
+                  <p></p>
+                  <ul>
+                  <li>协调阶段: 这个阶段<code>可以被中断</code>, 通过Dom-Diff算法找出所有节点变更，例如<code>节点新增</code>、<code>删除</code>、<code>属性变更</code>等等, 这些变更React 称之为<code>副作用</code>(Effect)</li>
+                  <li>提交阶段: 将上一个阶段计算出来的需要处理的副作用(Effects)一次性执行了。这个阶段必须<code>同步</code>执行，<code>不能被打断</code></li>
+                  </ul>
+                  <p>
+                  简单理解的话</p>
+                  <p></p>
+                  <ul>
+                  <li>阶段1：生成Fiber树，得出需要<code>更新</code>的<code>节点信息</code>。（<code>可打断</code>）</li>
+                  <li>阶段2：将需要更新的节点一次性地<code>批量更新</code>。（<code>不可打断</code>）</li>
+                  </ul>
+                  <p></p>
+                  <blockquote>
+                  <p>Fiber的协调阶段，可以被优先级较高的任务（如键盘输入）打断。</p>
+                  <p>
+                  阶段1可被打断的特性，让<code>优先级更高的任务先执行</code>，从框架层面大大降低了页面掉帧的概率。</p>
+                  </blockquote>
+                  <p></p>
+                  <h2>Fiber执行流程</h2>
+                  <p></p>
+                  <h3>render阶段</h3>
+                  <p>
+                  Fiber Reconciliation(协调) 在阶段一进行 Diff 计算的时候，会生成一棵 <code>Fiber 树</code>。这棵树是在 <code>Virtual DOM 树</code>的基础上增加额外的信息<code>生成</code>来的，它本质来说是一个链表。</p>
+                  <p>
+                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930359341776.jpg" alt="render阶段" title="render阶段" style="cursor: zoom-in;"></p>
+                  <p></p>
+                  <h3>commit提交阶段</h3>
+                  <p>
+                  <strong>Fiber 树在首次渲染的时候会一次过生成</strong>。在<code>后续</code>需要 <code>Diff</code> 的时候，会根据已有树和最新 Virtual DOM 的信息，生成一棵新的树。这颗新树每生成一个新的节点，都会将控制权交回给主线程，去检查有没有优先级更高的任务需要执行。如果没有，则继续构建树的过程。</p>
+                  <p></p>
+                  <blockquote>
+                  <p>1.如果过程中有优先级更高的任务需要进行，则 Fiber Reconciler 会丢弃正在生成的树，在空闲的时候再重新执行一遍。</p>
+                  <p>
+                  2.在构造 Fiber 树的过程中，Fiber Reconciler 会将需要更新的节点信息保存在<code>Effect List</code>当中，在阶段二执行的时候，会批量更新相应的节点。</p>
+                  </blockquote>
+                  <p></p>
+                  <h3>细节拓展</h3>
+                  <p></p>
+                  <h4>render阶段是如何遍历，生成Fiber树的？</h4>
+                  <p></p>
+                  <pre style="max-width: 100%; position: relative"><a class="code-copy right0" title="复制到剪切板"><i class="icon-copy"></i></a><code class="hljs javascript">&lt;div&gt;
+                  
+                    
+                  
+                      
+                  
+                        
+                  
+                        
+                  
+                      
+                  
+                      
+                  
+                    
+                  <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></code></pre>
+                  <p></p>
+                  <ul>
+                  <li>从顶点开始遍历</li>
+                  <li>如果有第一个儿子，先遍历第一个儿子</li>
+                  <li>如果没有第一个儿子，标志着此节点遍历完成</li>
+                  <li>如果有弟弟遍历弟弟</li>
+                  <li>如果有没有下一个弟弟，返回父节点标识完成父节点遍历，如果有叔叔遍历叔叔</li>
+                  <li>没有父节点遍历结束</li>
+                  </ul>
+                  <p>
+                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930419125324.jpg" alt="render节点遍历规则" title="render节点遍历规则" style="cursor: zoom-in;"></p>
+                  <p></p>
+                  <h4>commit阶段，是如何commit的？</h4>
+                  <p>
+                  类比 Git 分支功能,从旧树中 fork 出来一份，在新分支进行添加、删除和更新操作，经过测试后进行提交。</p>
+                  <p>
+                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930439571222.jpg" alt="commit阶段，是如何commit的" title="commit阶段，是如何commit的" style="cursor: zoom-in;"></p>
+                  <i class="i-icon i-icon-down"></i>
+                  </div>
+                  </div>
+                  </div>
+
+              </div>
 
               <hr>
               <hr>

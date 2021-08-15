@@ -154,267 +154,68 @@
         <div class="mobile-mask" style="display:none" q-show="isShow"></div>
       </nav>
 
-      <div id="wrapper" class="body-wrap">
+      <div id="wrapper" class="body-wrap" style="margin-left: 50px; background-color: #fff;" >
+        
         <div class="menu-l">
           <div class="canvas-wrap">
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1"
               class="anm-canvas"></canvas>
           </div>
-          <div id="js-content" class="content-ll">
-            <article id="copy" class="article article-type-post " itemscope itemprop="blogPost">
-              <div class="article-inner">
-
-                <header class="article-header">
-
-
-                  <h1 class="article-title" itemprop="name">
-                    React Fiber
-                  </h1>
-
-
-
-                  <a href="/20210718/" class="archive-article-date">
-                    <time datetime="2021-08-01T10:45:00.190Z" itemprop="datePublished"><i
-                        class="icon-calendar icon"></i>2021-08-01</time>
-                  </a>
-
-                </header>
-
-
-                <div class="news-page article-page">
-                  <p></p>
-                  <h2>Fiber出现的背景?</h2>
-                  <p>
-                  在早期的 <a href="https://www.w3cschool.cn/react/">React</a> 版本中，也就是 React16.8 版本之前。</p>
-                  <p>
-                  大量的<code>同步计算任务</code>阻塞了浏览器的UI渲染。默认情况下，<code>JS运算</code>、<code>页面布局</code>和<code>页面绘制渲染</code>都是运行在浏览器的<code>主线程</code>当中，他们之间是<code>互斥</code>的关系。</p>
-                  <p>
-                  如果 JS 运算持续占用主线程，页面就没法得到及时的更新，当我们调用<code>setState</code>更新页面的时候，<a href="https://www.w3cschool.cn/react/">React</a> 会遍历应用的所有节点，与老的 dom 节点进行 diff 算法的对比，最小代价更新页面，<code>即使</code>这样，整个过程也是一气呵成，<code>不能被打断</code>的，如果页面元素很多，整个过程占用的时间就可能超过16毫秒，出现掉帧的现象。</p>
-                  <p>
-                  针对这一现象，<a href="https://www.w3cschool.cn/react/">React</a> 团队从框架层面对 web 页面的运行机制做了优化，此后，<code>Fiber</code>诞生了。</p>
-                  <p>
-                  说到16ms，我们来看这样的一个概念</p>
-                  <p></p>
-                  <h3>屏幕刷新率</h3>
-                  <p></p>
-                  <ul>
-                  <li>目前大多数设备的屏幕刷新率为60次/秒</li>
-                  <li>浏览器的渲染动画或页面的每一帧的速率也需要跟设备屏幕的刷新率保持一致。</li>
-                  <li>页面是一帧一帧绘制出来的，当每秒绘制的帧数(FPS)达到60时，页面是流畅的，小于这个值时，用户会感觉到卡顿。</li>
-                  <li>每个帧的预算时间是16.66毫秒（1秒/60）</li>
-                  <li>1s 60帧，所以我们书写代码时尽量不让一帧的工作量超过16ms</li>
-                  </ul>
-                  <p></p>
-                  <h2>Fiber的诞生</h2>
-                  <p>
-                  解决主线程长时间被 JS 晕眩占用这一问题的基本思路，是将<code>运算切割为多个步骤</code>，分批完成。也就是说在完成一部分任务之后， 将<code>控制权交回</code>给浏览器，让浏览器有时间再进行页面的渲染。等浏览器忙完之后，再继续之前React未完成的任务。</p>
-                  <p>
-                  旧版 React <code>通过递归</code>的方式进行渲染，使用的是 JS 引擎自身的函数调用栈，<strong>它会一直执行到栈空为止</strong>。</p>
-                  <p>
-                  而<code>Fiber</code>实现了自己的组件调用栈，它以链表的形式遍历组件树，可以灵活地暂停、继续和丢弃执行的任务。实现的方式是使用了 浏览器的<code>requestIdleCallback</code>这一 API。官方的解释是这样的：</p>
-                  <p></p>
-                  <blockquote>
-                  <p>window.requestIdleCallback()会在浏览器<code>空闲时期</code>依次调用函数，这就可以让开发者在<code>主事件循环</code>中执行<code>后台</code>或<code>优先级低</code>的任务，而且不会像对动画和用户交互这些延迟触发产生关键的事件影响。函数一般会按先进先调用的顺序执行，除非函数在浏览器调用它之前就到了它的超时时间。</p>
-                  </blockquote>
-                  <p></p>
-                  <h3>requestIdleCallback的核心用法</h3>
-                  <p></p>
-                  <ul>
-                  <li>希望快速响应用户，让用户觉得够快，不能阻塞用户的交互行为</li>
-                  <li>requestIdleCallback 使开发者能够在<code>主事件循环</code>上执行后台和<code>低优先级</code>的工作，而不会影响延迟关键事件，例如动画和输入的响应</li>
-                  <li>正常帧任务完成后<code>没超过16ms</code>，说明时间有赋予，此时就会执行<code>requestIdleCallback</code>里注册的任务</li>
-                  </ul>
-                  <p></p>
-                  <h3>requestIdleCallback执行流程</h3>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930006787384.jpg" alt="requestIdleCallback执行流程" title="requestIdleCallback执行流程" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <h2>Fiber是什么</h2>
-                  <p></p>
-                  <h3>Fiber是一个执行单元</h3>
-                  <p>
-                  Fiber 是一个执行单元，<strong>每次执行完一个执行单元, React 就会检查现在还剩多少时间</strong>，如果没有时间就将控制权让出去</p>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930047870679.jpg" alt="Fiber是一个执行单元" title="Fiber是一个执行单元" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <h3>Fiber是一种数据结构</h3>
-                  <p>
-                  <a href="https://www.w3cschool.cn/react/">React</a> 目前的做法是使用链表, 每个 VirtualDOM 节点内部表示为一个<code>Fiber</code>，它可以用一个 JS 对象来表示：</p>
-                  <p></p>
-                  <pre style="max-width: 100%; position: relative"><a class="code-copy right0" title="复制到剪切板"><i class="icon-copy"></i></a><code class="hljs javascript"><span class="hljs-keyword">const</span> fiber = {
-                    stateNode, <span class="hljs-comment">// 节点实例</span>
-                    child,     <span class="hljs-comment">// 子节点</span>
-                    sibling,   <span class="hljs-comment">// 兄弟节点</span>
-                    <span class="hljs-keyword">return</span>,    <span class="hljs-comment">// 父节点</span>
-                  }</code></pre>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930080984033.jpg" alt="Fiber是一种数据结构" title="Fiber是一种数据结构" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <h2>Fiber之前的协调阶段</h2>
-                  <p></p>
-                  <ul>
-                  <li>React 会<code>递归比对</code>VirtualDOM树，找出<code>需要变动</code>的节点，然后同步更新它们。这个过程 React 称为Reconcilation(协调)</li>
-                  <li>在Reconcilation期间，React 会<code>一直占用</code>着浏览器资源，一则会导致用户触发的事件得不到响应, 二则会导致掉帧，用户可能会感觉到卡顿</li>
-                  </ul>
-                  <p></p>
-                  <pre style="max-width: 100%; position: relative"><a class="code-copy right0" title="复制到剪切板"><i class="icon-copy"></i></a><code class="hljs javascript"><span class="hljs-keyword">let</span> root = {
-                    key: <span class="hljs-string">'A1'</span>,
-                    children: [
-                      {
-                        key: <span class="hljs-string">'B1'</span>,
-                        children: [
-                          {
-                            key: <span class="hljs-string">'C1'</span>,
-                            children: []
-                          },
-                          {
-                            key: <span class="hljs-string">'C2'</span>,
-                            children: []
-                          }
-                        ]
-                      },
-                      {
-                        key: <span class="hljs-string">'B2'</span>,
-                        children: []
-                      }
-                    ]
-                  }
-                  
-                  
-                  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">walk</span>(<span class="hljs-params">element</span>) </span>{
-                    doWork(element);
-                    element.children.forEach(walk);
-                  }
-                  
-                  
-                  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doWork</span>(<span class="hljs-params">element</span>) </span>{
-                    <span class="hljs-built_in">console</span>.log(element.key);
-                  }
-                  walk(root);</code></pre>
-                  <p></p>
-                  <blockquote>
-                  <p>在 Fiber 出现之前， React 会不断递归遍历虚拟 DOM 节点，占用着浏览器资源，积极地浪费性能，造成卡顿现象，且协调阶段是不能<code>被打断的</code>。</p>
-                  </blockquote>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930159603824.jpg" alt="React不断递归遍历虚拟DOM节点" title="React不断递归遍历虚拟DOM节点" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <blockquote>
-                  <p>Fiber 出现之后，通过某些 Fiber 调度策略合理分配 CPU 资源，让自己的<code>协调阶段变成可被终端</code>，<code>适时</code>地让 CPU（浏览器）执行权，提高了性能优化。</p>
-                  </blockquote>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930185486238.jpg" alt="协调阶段变成可被终端" title="协调阶段变成可被终端" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <h2>Fiber执行阶段</h2>
-                  <p>
-                  每次渲染有两个阶段：Reconciliation(协调\render阶段)和Commit(提交阶段)</p>
-                  <p></p>
-                  <ul>
-                  <li>协调阶段: 这个阶段<code>可以被中断</code>, 通过Dom-Diff算法找出所有节点变更，例如<code>节点新增</code>、<code>删除</code>、<code>属性变更</code>等等, 这些变更React 称之为<code>副作用</code>(Effect)</li>
-                  <li>提交阶段: 将上一个阶段计算出来的需要处理的副作用(Effects)一次性执行了。这个阶段必须<code>同步</code>执行，<code>不能被打断</code></li>
-                  </ul>
-                  <p>
-                  简单理解的话</p>
-                  <p></p>
-                  <ul>
-                  <li>阶段1：生成Fiber树，得出需要<code>更新</code>的<code>节点信息</code>。（<code>可打断</code>）</li>
-                  <li>阶段2：将需要更新的节点一次性地<code>批量更新</code>。（<code>不可打断</code>）</li>
-                  </ul>
-                  <p></p>
-                  <blockquote>
-                  <p>Fiber的协调阶段，可以被优先级较高的任务（如键盘输入）打断。</p>
-                  <p>
-                  阶段1可被打断的特性，让<code>优先级更高的任务先执行</code>，从框架层面大大降低了页面掉帧的概率。</p>
-                  </blockquote>
-                  <p></p>
-                  <h2>Fiber执行流程</h2>
-                  <p></p>
-                  <h3>render阶段</h3>
-                  <p>
-                  Fiber Reconciliation(协调) 在阶段一进行 Diff 计算的时候，会生成一棵 <code>Fiber 树</code>。这棵树是在 <code>Virtual DOM 树</code>的基础上增加额外的信息<code>生成</code>来的，它本质来说是一个链表。</p>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930359341776.jpg" alt="render阶段" title="render阶段" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <h3>commit提交阶段</h3>
-                  <p>
-                  <strong>Fiber 树在首次渲染的时候会一次过生成</strong>。在<code>后续</code>需要 <code>Diff</code> 的时候，会根据已有树和最新 Virtual DOM 的信息，生成一棵新的树。这颗新树每生成一个新的节点，都会将控制权交回给主线程，去检查有没有优先级更高的任务需要执行。如果没有，则继续构建树的过程。</p>
-                  <p></p>
-                  <blockquote>
-                  <p>1.如果过程中有优先级更高的任务需要进行，则 Fiber Reconciler 会丢弃正在生成的树，在空闲的时候再重新执行一遍。</p>
-                  <p>
-                  2.在构造 Fiber 树的过程中，Fiber Reconciler 会将需要更新的节点信息保存在<code>Effect List</code>当中，在阶段二执行的时候，会批量更新相应的节点。</p>
-                  </blockquote>
-                  <p></p>
-                  <h3>细节拓展</h3>
-                  <p></p>
-                  <h4>render阶段是如何遍历，生成Fiber树的？</h4>
-                  <p></p>
-                  <pre style="max-width: 100%; position: relative"><a class="code-copy right0" title="复制到剪切板"><i class="icon-copy"></i></a><code class="hljs javascript">&lt;div&gt;
-                  
-                    
-                  
-                      
-                  
-                        
-                  
-                        
-                  
-                      
-                  
-                      
-                  
-                    
-                  <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></code></pre>
-                  <p></p>
-                  <ul>
-                  <li>从顶点开始遍历</li>
-                  <li>如果有第一个儿子，先遍历第一个儿子</li>
-                  <li>如果没有第一个儿子，标志着此节点遍历完成</li>
-                  <li>如果有弟弟遍历弟弟</li>
-                  <li>如果有没有下一个弟弟，返回父节点标识完成父节点遍历，如果有叔叔遍历叔叔</li>
-                  <li>没有父节点遍历结束</li>
-                  </ul>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930419125324.jpg" alt="render节点遍历规则" title="render节点遍历规则" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <h4>commit阶段，是如何commit的？</h4>
-                  <p>
-                  类比 Git 分支功能,从旧树中 fork 出来一份，在新分支进行添加、删除和更新操作，经过测试后进行提交。</p>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930439571222.jpg" alt="commit阶段，是如何commit的" title="commit阶段，是如何commit的" style="cursor: zoom-in;"></p>
-                  <i class="i-icon i-icon-down"></i>
-                  </div>
-                  </div>
-                  </div>
-
-              </div>
-
-              <hr>
-              <hr>
-              <hr>
-              <hr>
-              <div class="page-reward">
-                <a href="javascript:;" class="page-reward-btn tooltip-top">
-                  <div class="tooltip tooltip-east">
-                    <span class="tooltip-item">
-                      赏
-                    </span>
-                    <span class="tooltip-content">
-                      <span class="tooltip-text">
-                        <span class="tooltip-inner">
-                          <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
-                              class="icon icon-quo-right"></i></p>
-                          <div class="reward-box">
-
-
-                          </div>
-                        </span>
-                      </span>
-                    </span>
-                  </div>
-                </a>
-              </div>
-
-          </div>
+          <div class="markdown-body">
+            <h1 class="article-title" style="color: #000;">
+              浏览器渲染机制
+              <!----></h1><style>.markdown-body{word-break:break-word;line-height:1.75;font-weight:400;font-size:15px;overflow-x:hidden;color:#333}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{line-height:1.5;margin-top:35px;margin-bottom:10px;padding-bottom:5px}.markdown-body h1{font-size:30px;margin-bottom:5px}.markdown-body h2{padding-bottom:12px;font-size:24px;border-bottom:1px solid #ececec}.markdown-body h3{font-size:18px;padding-bottom:0}.markdown-body h4{font-size:16px}.markdown-body h5{font-size:15px}.markdown-body h6{margin-top:5px}.markdown-body p{line-height:inherit;margin-top:22px;margin-bottom:22px}.markdown-body img{max-width:100%}.markdown-body hr{border:none;border-top:1px solid #ddd;margin-top:32px;margin-bottom:32px}.markdown-body code{word-break:break-word;border-radius:2px;overflow-x:auto;background-color:#fff5f5;color:#ff502c;font-size:.87em;padding:.065em .4em}.markdown-body code,.markdown-body pre{font-family:Menlo,Monaco,Consolas,Courier New,monospace}.markdown-body pre{overflow:auto;position:relative;line-height:1.75}.markdown-body pre>code{font-size:12px;padding:15px 12px;margin:0;word-break:normal;display:block;overflow-x:auto;color:#333;background:#f8f8f8}.markdown-body a{text-decoration:none;color:#0269c8;border-bottom:1px solid #d1e9ff}.markdown-body a:active,.markdown-body a:hover{color:#275b8c}.markdown-body table{display:inline-block!important;font-size:12px;width:auto;max-width:100%;overflow:auto;border:1px solid #f6f6f6}.markdown-body thead{background:#f6f6f6;color:#000;text-align:left}.markdown-body tr:nth-child(2n){background-color:#fcfcfc}.markdown-body td,.markdown-body th{padding:12px 7px;line-height:24px}.markdown-body td{min-width:120px}.markdown-body blockquote{color:#666;padding:1px 23px;margin:22px 0;border-left:4px solid #cbcbcb;background-color:#f8f8f8}.markdown-body blockquote:after{display:block;content:""}.markdown-body blockquote>p{margin:10px 0}.markdown-body ol,.markdown-body ul{padding-left:28px}.markdown-body ol li,.markdown-body ul li{margin-bottom:0;list-style:inherit}.markdown-body ol li .task-list-item,.markdown-body ul li .task-list-item{list-style:none}.markdown-body ol li .task-list-item ol,.markdown-body ol li .task-list-item ul,.markdown-body ul li .task-list-item ol,.markdown-body ul li .task-list-item ul{margin-top:0}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:3px}.markdown-body ol li{padding-left:6px}.markdown-body .contains-task-list{padding-left:0}.markdown-body .task-list-item{list-style:none}@media (max-width:720px){.markdown-body h1{font-size:24px}.markdown-body h2{font-size:20px}.markdown-body h3{font-size:18px}}</style><h2 data-id="heading-0">前言</h2><p>浏览器渲染机制也几乎是面试必考题，今天看了几篇文章，做下知识点总结！共分为以下4个主要的方面：</p><ul><li>!DCTYPE</li><li>浏览器渲染的主要步骤</li><li>回流(reflow)和重绘(repaint)的主要概念、触发条件、以及如何尽可能的避免发生。<br></li></ul><h2 data-id="heading-1">一、!DCTYPE</h2><h3 data-id="heading-2">概念</h3><p>&lt;!DOCTYPE&gt;标签并不是HTML标签，而是来提醒浏览器使用哪个HTML版本来对页面进行解析。接下来对几个HTML协议简单介绍下</p><p><a target="_blank" ref="nofollow noopener noreferrer" href="https://link.juejin.cn?target=undefined"></a><a target="_blank" ref="nofollow noopener noreferrer" href="https://link.juejin.cn?target=undefined"></a><b>HTML 4.01 Strict（包含所有的HTML元素和属性，不包括展示性的元素、弃用的元素、框架集）</b><br></p><pre><code lang="bash" class="copyable">&lt;!DOCTYPE HTML PUBLIC <span>"-//W3C//DTD HTML 4.01//EN"</span> <span>"http://www.w3.org/TR/html4/strict.dtd"</span>&gt;<span class="copy-code-btn">复制代码</span></code></pre><p><b></b><a target="_blank" ref="nofollow noopener noreferrer" href="https://link.juejin.cn?target=undefined"></a><a target="_blank" ref="nofollow noopener noreferrer" href="https://link.juejin.cn?target=undefined"></a><b>HTML 4.01 Transitional（包含所有的HTML元素和属性，包括展示性的元素、弃用的元素、框架集）</b><br></p><p></p><pre><code lang="bash" class="copyable">&lt;!DOCTYPE HTML PUBLIC <span>"-//W3C//DTD HTML 4.01 Transitional//EN"</span> 
+<span>"http://www.w3.org/TR/html4/loose.dtd"</span>&gt;<span class="copy-code-btn">复制代码</span></code></pre><p></p><p><a target="_blank" ref="nofollow noopener noreferrer" href="https://link.juejin.cn?target=undefined"></a><a target="_blank" ref="nofollow noopener noreferrer" href="https://link.juejin.cn?target=undefined"></a><b>HTML 4.01 Frameset（</b><b>该 DTD 等同于 HTML 4.01 Transitional，但允许框架集内容。)</b></p><p></p><p></p><pre><code lang="bash" class="copyable">&lt;!DOCTYPE HTML PUBLIC <span>"-//W3C//DTD HTML 4.01 Frameset//EN"</span> 
+<span>"http://www.w3.org/TR/html4/frameset.dtd"</span>&gt;<span class="copy-code-btn">复制代码</span></code></pre><p></p><p><b>HTML 5</b></p><p></p><pre><code lang="bash" class="copyable">&lt;!DOCTYPE html&gt;<span class="copy-code-btn">复制代码</span></code></pre><p></p><p>为什么HTML5中没有引用DTD呢，因为HTML4.01都是基于SGML语言的，DTD规定了标记语言的规则，所以需要，HTML5不是基于SGML的所以并不需要。</p><p>浏览器按照何种方式解析页面这个问题同解，<b>这里提出另外一个问题，如果在html页面中没有写&lt;!DOCTYPE&gt;会怎么样？</b></p><h2 data-id="heading-3">二、浏览器渲染的主要步骤</h2><ol><li><b>浏览器将获取的HTML文档解析成DOM树</b>（在这步中，浏览器从开始解析开始就会启用另外一个线程来下载其他的css,js，静态资源等文件，但是如果遇到&lt;script&gt;(css文件)标签就会停下来，等待加载完成载继续解析，这也是为什么提倡把script标签放到页面底部、不适用import的方式导入css的文件原因。)</li><li>CSS下载完成后对CSS文件进行解析，解析成CSS对象，然后对CSS对象进行组装，生成<b>CSSOM</b>树。</li><li>当DOM树和CSSOM树都构建完成后，浏览器根据DOM树和CSSOM树，构建一个<b>渲染树</b>(<code><b>rendering tree</b></code>)代表一系列即将被渲染的对象。</li><li>浏览器用一种流式处理的办法对渲染树上的每个节点，计算其在屏幕上的位置，这一步称之为<b>布局layout.</b></li><li>遍历渲染树，将其绘制到屏幕上。这一步称之为<b>绘制(painting).</b><br></li></ol><h2 data-id="heading-4">三、渲染的具体过程</h2><h3 data-id="heading-5">1. 浏览器将获取的HTML文档解析成DOM树</h3><p>当浏览器接收到服务器响应来的HTML文档后，会遍历文档节点，生成DOM树。<br>
+需要注意以下几点：</p><p>
+<br></p><ul>
+<li>DOM树在构建的过程中可能会被CSS和JS的加载而执行阻塞</li>
+<li>
+<code>display:none</code>的元素也会在DOM树中</li>
+<li>注释也会在DOM树中</li>
+<li>
+<code>script</code>标签会在DOM树中</li>
+</ul><p>
+<br></p><p>无论是DOM还是CSSOM，都是要经过<code>Bytes→characters→tokens→nodes→object model</code></p><p></p><div><div><p>当浏览器接收到服务器响应来的HTML文档后，会遍历文档节点，生成DOM树。<br>
+需要注意以下几点：</p>
+<ul>
+<li>DOM树在构建的过程中可能会被CSS和JS的加载而执行阻塞</li>
+<li>
+<code>display:none</code>的元素也会在DOM树中</li>
+<li>注释也会在DOM树中</li>
+<li>
+<code>script</code>标签会在DOM树中</li>
+</ul>
+<p>无论是DOM还是CSSOM，都是要经过<code>Bytes→characters→tokens→nodes→object model</code>这个过程。<br></p></div></div><br><p></p><p>DOM树的生成过程中可能会被CSS和JS的加载执行阻塞，具体可以参见下一章。当HTML文档解析过程完毕后，浏览器继续进行标记为deferred模式的脚本加载，然后就是整个解析过程的实际结束触发DOMContentLoaded事件，并在async文档文档执行完之后触发load事件。</p><h3 data-id="heading-6">2.CSSOM树</h3><p></p><p>浏览器解析CSS文件并生成CSSOM，每个CSS文件都被分析成一个StyleSheet对象，每个对象都包含CSS规则(Style Rules)，Style Rules也叫CSSOM（CSS Object Model）。CSS规则对象包含对应于CSS语法的选择器和声明对象以及其他对象。<br>
+在这个过程需要注意的是：</p>
+<ul>
+<li>CSS解析可以与DOM解析同时进行。</li>
+<li>CSS解析与<code>script</code>的执行互斥 。</li>
+<li>在Webkit内核中进行了<code>script</code>执行优化，只有在JS访问CSS时才会发生互斥。<br></li></ul><p></p><h3 data-id="heading-7">3. rendering tree</h3><p>Render Tree的构建其实就是DOM Tree和CSSOM Attach的过程(每个DOM节点都有一个attach方法),浏览器会先从DOM树的根节点开始遍历每个可见节点，然后对每个可见节点找到适配的CSS样式规则并应用。<br></p><p></p><p>在渲染树这一阶段有几点必须要注意：</p><ul><li>Render Tree和DOM Tree并不完全一样。</li><li>因为Render Tree是将来要显示出来的内容，所以head等标签不会显示到其中。</li><li>display:none&nbsp; 具有这个属性的元素不会显示在渲染树中。</li><li>visibility:hidden 具有这个属性的元素会显示在渲染树中。<br></li></ul><p>渲染树生成后，还是不能渲染到屏幕上，因为还无法确定各个节点的的位置，此时进入第四步<b>布局layout.</b></p><h3 data-id="heading-8">4. 布局layout.</h3><p>在我们创建完渲染树后，我们就可以遍历渲染树，因为渲染树上的每个节点都Render Object对象，包含这个节点的宽高、背景颜色等信息。我们就可以计算出每一个渲染对象的正确位置信息，将其渲染到正确的位置。这一过程也可称为回流或者布局，当我们加载js后还有可能发生一些对DOM的更改，这时候就会触发浏览器进行重新布局(回流)在后面我将会写到。布局阶段的输出就是我们常说的盒子模型，它会精确地捕获每个元素在屏幕内的确切位置与大小。需要注意的是：</p><p>
+</p><ul>
+<li>
+<code>float</code>元素，<code>absoulte</code>元素，<code>fixed</code>元素会发生位置偏移。</li>
+<li>我们常说的脱离文档流，其实就是脱离Render Tree。</li></ul><p></p><h3 data-id="heading-9">5. 渲染树绘制（Painting the render tree）</h3><p>在绘制阶段，浏览器会遍历渲染树，调用渲染器的<code>paint()</code>方法在屏幕上显示其内容。渲染树的绘制工作是由浏览器的UI后端组件完成的。</p><h2 data-id="heading-10">四、阻塞渲染</h2><p>当浏览器对HTML页面进行解析时，如果遇到了&lt;script&gt;，内部脚本则等到脚本执行结束再去继续解析，如果是外部脚本的话，要等到脚本下载完成，再解析页面。</p><p>如果js脚本还操作了CSS，而此时CSSOM树还没有构建完成的话则会停止js脚本的加载，直到CSSOM树构建完成。因为CSSOM树中包含了各个节点的样式信息，CSSOM树没有加载完成就没有办法进入下一阶段，在这之前用户看到的页面一直是空白的。这也是为什么要把CSS代码放在&lt;head&gt;标签中的原因。</p><p>为什么遇到script标签就是要停下来HTML文档的解析，因为js脚本中可能包含有对DOM或者CSSOM的操作，脚本解析会将脚本中改变DOM和CSS的地方分别解析出来，追加到DOM树和CSSOM规则树上。</p><h2 data-id="heading-11">五、回流(reflow)与重绘(repaint)</h2><h3 data-id="heading-12">1. 回流(reflow)</h3><p>回流通俗的来讲就是页面的布局发生了变化，浏览器需要重新的计算各个节点的位置，大小等信息了，浏览器会从root frame递归向下计算。这个回去重新计算的过程就是回流。回流是无法避免的，并且也不知道页面具体哪部分会受到影响，因为他们是相互依存，互相影响的关系。</p><p><b>有以下行为将会引起回流：</b></p><p></p><ul><li><b></b>网页初始化时</li>
+<li>DOM操作（元素添加、删除、修改、元素顺序变化）</li>
+<li>内容变化，包括表单域内文本改变</li>
+<li>CSS属性的计算或改变</li>
+<li>添加或删除样式表</li>
+<li>更改“类”属性</li>
+<li>浏览器窗口的缩放、滚动等</li>
+<li>伪类激活（例如:hover悬停）</li><li>JS 获取 Layout 属性值（如：offsetLeft、scrollTop、getComputedStyle 等）也会引起回流。因为浏览器需要通过回流计算最新值<br></li></ul><br><p></p><p><b>回流必定会引起重绘，但是重绘不一定会引起回流。</b></p><h3 data-id="heading-13">2. 重绘(repaint)</h3><p>重绘是指一个元素的外观被改变了，背景颜色、文字颜色、边框颜色等。就会引起浏览器对某一部分的重画，但是并不会引起页面布局的改变。</p><div>另外有些情况下，比如修改了元素的样式，浏览器并不会立刻<code>reflow</code>或<code>repaint</code>一次，而是会把这样的操作积攒一批，然后做一次<code>reflow</code>，这又叫异步<code>reflow</code>或增量异步<code>reflow</code>。但是在有些情况下，比如<code>resize</code>窗口，改变了页面默认的字体等。对于这些操作，浏览器会马上进行<code>reflow</code>。</div><p><br></p><h2 data-id="heading-14">六. 如何避免回流与重绘</h2><ul><li>可以将需要多次修改的DOM元素设置<code>display:none</code>，操作完再显示。（因为隐藏元素不在<code>render</code>树内，因此修改隐藏元素不会触发回流重绘）</li><li>用<code>transform</code>做形变和位移可以减少<code>reflow</code>
+<br></li><li>操作完成后再显示 需要创建多个 DOM 节点时，使用 DocumentFragment 创建完后一次性的加入 document&nbsp;</li><li>缓存 Layout 属性值，如：var left = elem.offsetLeft; 这样，多次使用 left 只产生一次回流</li><li>尽量避免用 table 布局（table 元素一旦触发回流就会导致 table 里所有的其它元素回流）</li><li>通过绝对位移将复杂的节点元素脱离文档流，形成新的Render Layer，降低回流成本</li><li>避免使用 css 表达式(expression)，因为每次调用都会重新计算值（包括加载页面）</li><li> 尽量使用 css 属性简写，如：用 border 代替 border-width, border-style, border-color 批量修改元素样式：elem.className 和 elem.style.cssText 代替 elem.style.xxx&nbsp;<br></li></ul><h2 data-id="heading-15">七. 一些浏览器优化的建议</h2><ul><div><div><li>合法地去书写HTML和CSS ，且不要忘了文档编码类型。</li>
+<li>样式文件应当在<code>head</code>标签中，而脚本文件在<code>body</code>结束前，这样可以防止阻塞的方式。</li>
+<li>简化并优化CSS选择器，尽量将嵌套层减少到最小。</li>
+<li>DOM 的多个读操作（或多个写操作），应该放在一起。不要两个读操作之间，加入一个写操作。</li>
+<li>如果某个样式是通过重排得到的，那么最好缓存结果。避免下一次用到的时候，浏览器又要重排。</li>
+<li>不要一条条地改变样式，而要通过改变<code>class</code>，或者<code>csstext</code>属性，一次性地改变样式。</li>
+<li>尽量用<code>transform</code>来做形变和位移</li>
+<li>尽量使用离线DOM，而不是真实的网页DOM，来改变元素样式。比如，操作<code>Document Fragment</code>对象，完成后再把这个对象加入DOM。再比如，使用<code>cloneNode()</code>方法，在克隆的节点上进行操作，然后再用克隆的节点替换原始节点。</li>
+<li>先将元素设为<code>display: none</code>（需要1次重排和重绘），然后对这个节点进行100次操作，最后再恢复显示（需要1次重排和重绘）。这样一来，你就用两次重新渲染，取代了可能高达100次的重新渲染。</li>
+<li>
+<code>position</code>属性为<code>absolute</code>或<code>fixed</code>的元素，重排的开销会比较小，因为不用考虑它对其他元素的影响。</li>
+<li>只在必要的时候，才将元素的<code>display</code>属性为可见，因为不可见的元素不影响重排和重绘。另外，<code>visibility : hidden</code>的元素只对重绘有影响，不影响重排。</li>
+<li>使用<code>window.requestAnimationFrame()</code>、<code>window.requestIdleCallback()</code>这两个方法调节重新渲染。<br></li></div></div></ul><p><br></p></div>
           <div class="article-info article-info-index">
 
 

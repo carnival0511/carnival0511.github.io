@@ -154,7 +154,8 @@
         <div class="mobile-mask" style="display:none" q-show="isShow"></div>
       </nav>
 
-      <div id="wrapper" class="body-wrap">
+      <div id="wrapper" class="body-wrap" style="margin-left: 50px;">
+        
         <div class="menu-l">
           <div class="canvas-wrap">
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1"
@@ -162,207 +163,218 @@
           </div>
           <div id="js-content" class="content-ll">
             <article id="copy" class="article article-type-post " itemscope itemprop="blogPost">
-              <div class="article-inner">
-
-                <header class="article-header">
-
-
-                  <h1 class="article-title" itemprop="name">
-                    类组件和函数组件
-                  </h1>
-
-
-
-                  <a href="/20210718/" class="archive-article-date">
-                    <time datetime="2021-07-18T10:45:00.190Z" itemprop="datePublished"><i
-                        class="icon-calendar icon"></i>2021-07-24</time>
-                  </a>
-
-                </header>
-
-
-                <article class="baidu_pl">
-                  <div id="article_content" class="article_content clearfix">
-                    <link rel="stylesheet"
-                      href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-1a85854398.css">
-                    <div id="content_views" class="markdown_views prism-tomorrow-night-eighties">
-                      <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block"
-                          style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                      </svg>
-                      <p>参考文章：</p>
-                      <p><a
-                          href="https://overreacted.io/zh-hans/how-are-function-components-different-from-classes/">函数式组件与类组件有何不同</a>
-                      </p>
-                      <p>文章在一开始就声明了：这两种写法没有好坏之分，性能差距也几乎可以忽略，而且 React 会长期支持这两种写法。</p>
-                      <p>至于代码的性能问题，这主要取决于代码的作用，而不是选择函数式组件和类组件</p>
-                      <p>React的函数式组件和类组件之间是否有任何<strong>根本上的区别</strong>？当然有 —— 在心智模型上。</p>
-                      <blockquote>
-                        <p><strong>函数式组件捕获了渲染所用的值。（Function components capture the rendered values.）</strong></p>
-                      </blockquote>
-                      <p>现在有这么一段代码</p>
-                      <pre
-                        class="prettyprint"><code class="prism language-js has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span >function</span> <span class="token function">ProfilePage</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
-            <span class="token keyword">const</span> <span class="token function-variable function">showMessage</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'Followed '</span> <span class="token operator">+</span> props<span class="token punctuation">.</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">;</span>
-          
-            <span class="token keyword">const</span> <span class="token function-variable function">handleClick</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token function">setTimeout</span><span class="token punctuation">(</span>showMessage<span class="token punctuation">,</span> <span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">;</span>
-          
-            <span class="token keyword">return</span> <span class="token punctuation">(</span>
-              <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{<!-- --></span>handleClick<span class="token punctuation">}</span><span class="token operator">&gt;</span>Follow<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
-            <span class="token punctuation">)</span><span class="token punctuation">;</span>
-          <span class="token punctuation">}</span>
-          <div class="hljs-button signin" data-title="登录后复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4259&quot;}"></div></code></pre>
-                      <p>
-                        它渲染了一个利用<code>setTimeout</code>来模拟网络请求，然后显示一个确认警告的按钮。例如，如果<code>props.user</code>是<code>Dan</code>，它会在三秒后显示<code>Followed Dan</code>。非常简单。
-                      </p>
-                      <p>如果是类组件我们怎么写？一个简单的重构可能就象这样：</p>
-                      <pre
-                        class="prettyprint"><code class="prism language-js has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token keyword">class</span> <span class="token class-name">ProfilePage</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{<!-- --></span>
-            <span class="token function-variable function">showMessage</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'Followed '</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">;</span>
-            <span class="token function-variable function">handleClick</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>showMessage<span class="token punctuation">,</span> <span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">;</span>
-            <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token keyword">return</span> <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{<!-- --></span><span class="token keyword">this</span><span class="token punctuation">.</span>handleClick<span class="token punctuation">}</span><span class="token operator">&gt;</span>Follow<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-          <span class="token punctuation">}</span>
-          <div class="hljs-button signin" data-title="登录后复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4259&quot;}"></div></code></pre>
-                      <p>这两个组件都描述了同一个逻辑：点击按钮 3 秒后 <code>alert</code> 父级传入的用户名。</p>
-                      <p>那么当点击按钮后的 3 秒内，父级修改了 <code>this.state.user</code>，弹出的用户名是修改前的还是修改后的呢？</p>
-                      <p>你将看到一个非常奇怪的现象：</p>
-                      <ul>
-                        <li><strong>Function Component 展示的是修改前的值：</strong></li>
-                        <li><strong>Class Component 展示的是修改后的值：</strong></li>
-                      </ul>
-                      <p>React 文档中描述的 <code>props</code> 不是<strong>不可变（Immutable）</strong> 数据吗？为啥在运行时还会发生变化呢？</p>
-                      <p>原因在于，虽然 <code>props</code> 不可变，是 <strong><code>this</code> 在 Class Component 中是可变的</strong>，因此
-                        <strong><code>this.props</code> 的调用会导致每次都访问最新的 <code>props</code>。</strong></p>
-                      <p>而 <strong>Function Component</strong> 不存在 <code>this.props</code> 的语法，因此 <code>props</code>
-                        总是不可变的。</p>
-                      <p><strong>Function Component:</strong></p>
-                      <pre
-                        class="prettyprint"><code class="prism language-js has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token keyword">function</span> <span class="token function">ProfilePage</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
-            <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token comment">// 就算父组件 reRender，这里拿到的 props 也是初始的</span>
-              console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-          <span class="token punctuation">}</span>
-          <div class="hljs-button signin" data-title="登录后复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4259&quot;}"></div></code></pre>
-                      <p><strong>Class Component:</strong></p>
-                      <pre
-                        class="prettyprint"><code class="prism language-js has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token keyword">class</span> <span class="token class-name">ProfilePage</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{<!-- --></span>
-            <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-                <span class="token comment">// 如果父组件 reRender，this.props 拿到的永远是最新的。</span>
-                <span class="token comment">// 并不是 props 变了，而是 this.props 指向了新的 props，旧的 props 找不到了</span>
-                console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
-              <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-          <span class="token punctuation">}</span>
-          <div class="hljs-button signin" data-title="登录后复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4259&quot;}"></div></code></pre>
-                      <p>如果希望在 Class Component 捕获瞬时 Props，可以：
-                        <code>const props = this.props;</code>，但这样的代码很蹩脚，所以如果希望拿到稳定的 <code>props</code>，使用 Function
-                        Component 是更好的选择。</p>
-                      <p>现在我们明白了React中函数式组件和类组件之间的巨大差别：</p>
-                      <blockquote>
-                        <p><strong>函数式组件捕获了渲染所使用的值。</strong></p>
-                      </blockquote>
-                      <h3><a name="t0"></a><a id="Hooksstate_94"></a><strong>使用Hooks，同样的原则也适用于state。</strong></h3>
-                      <pre
-                        class="prettyprint"><code class="prism language-js has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token keyword">function</span> <span class="token function">MessageThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
-            <span class="token keyword">const</span> <span class="token punctuation">[</span>message<span class="token punctuation">,</span> setMessage<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-          
-            <span class="token keyword">const</span> <span class="token function-variable function">showMessage</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"You said: "</span> <span class="token operator">+</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">;</span>
-          
-            <span class="token keyword">const</span> <span class="token function-variable function">handleSendClick</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token function">setTimeout</span><span class="token punctuation">(</span>showMessage<span class="token punctuation">,</span> <span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">;</span>
-          
-            <span class="token keyword">const</span> <span class="token function-variable function">handleMessageChange</span> <span class="token operator">=</span> e <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token function">setMessage</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">;</span>
-          
-            <span class="token keyword">return</span> <span class="token punctuation">(</span>
-              <span class="token operator">&lt;</span><span class="token operator">&gt;</span>
-                <span class="token operator">&lt;</span>input value<span class="token operator">=</span><span class="token punctuation">{<!-- --></span>message<span class="token punctuation">}</span> onChange<span class="token operator">=</span><span class="token punctuation">{<!-- --></span>handleMessageChange<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
-                <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{<!-- --></span>handleSendClick<span class="token punctuation">}</span><span class="token operator">&gt;</span>Send<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
-              <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">&gt;</span>
-            <span class="token punctuation">)</span><span class="token punctuation">;</span>
-          <span class="token punctuation">}</span>
-          <div class="hljs-button signin" data-title="登录后复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4259&quot;}"></div></code></pre>
-                      <p>在点击 <code>Send</code> 按钮后，再次修改输入框的值，3 秒后的输出依然是 <strong>点击前输入框的值</strong>。这说明 Hooks 同样具有 capture
-                        value 的特性。</p>
-                      <p>利用 <code>useRef</code> 可以规避 capture value 特性：</p>
-                      <pre
-                        class="prettyprint"><code class="prism language-js has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token keyword">function</span> <span class="token function">MessageThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
-            <span class="token keyword">const</span> latestMessage <span class="token operator">=</span> <span class="token function">useRef</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-          
-            <span class="token keyword">const</span> <span class="token function-variable function">showMessage</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"You said: "</span> <span class="token operator">+</span> latestMessage<span class="token punctuation">.</span>current<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">;</span>
-          
-            <span class="token keyword">const</span> <span class="token function-variable function">handleSendClick</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token function">setTimeout</span><span class="token punctuation">(</span>showMessage<span class="token punctuation">,</span> <span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">;</span>
-          
-            <span class="token keyword">const</span> <span class="token function-variable function">handleMessageChange</span> <span class="token operator">=</span> e <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              latestMessage<span class="token punctuation">.</span>current <span class="token operator">=</span> e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>value<span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">;</span>
-          <span class="token punctuation">}</span>
-          <div class="hljs-button signin" data-title="登录后复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4259&quot;}"></div></code></pre>
-                      <p>只要将赋值与取值的对象变成 <code>useRef</code>，而不是 <code>useState</code>，就可以躲过 capture value 特性，在 3
-                        秒后得到最新的值。</p>
-                      <p>这说明了利用 Function Component + Hooks 可以实现 Class Component 做不到的 capture props、capture value，而且
-                        React 官方也推荐 <a
-                          href="https://reactjs.org/docs/hooks-faq.html#do-i-need-to-rewrite-all-my-class-components">新的代码使用
-                          Hooks 编写</a>。</p>
-                      <p>ref是一种“选择退出”渲染一致性的方法，在某些情况下会十分方便。</p>
-                      <p>
-                        通常情况下，你应该避免在<strong>渲染<em>期间</em>读取或者设置refs</strong>，因为它们是可变得。我们希望<strong>保持渲染的可预测性</strong>。**然而，如果我们想要特定props或者state的最新值，那么手动更新ref会有些烦人。**我们可以通过使用一个effect来自动化实现它：
-                      </p>
-                      <pre
-                        class="prettyprint"><code class="prism language-js has-numbering" onclick="mdcp.signin(event)" style="position: unset;"><span class="token keyword">function</span> <span class="token function">MessageThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{<!-- --></span>
-            <span class="token keyword">const</span> <span class="token punctuation">[</span>message<span class="token punctuation">,</span> setMessage<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token comment">// 保持追踪最新的值。</span>
-            <span class="token keyword">const</span> latestMessage <span class="token operator">=</span> <span class="token function">useRef</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              latestMessage<span class="token punctuation">.</span>current <span class="token operator">=</span> message<span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">const</span> <span class="token function-variable function">showMessage</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{<!-- --></span>
-              <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'You said: '</span> <span class="token operator">+</span> latestMessage<span class="token punctuation">.</span>current<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">;</span>
-          <div class="hljs-button signin" data-title="登录后复制" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.4259&quot;}"></div></code></pre>
-                      <p>我们在一个effect<em>内部</em>执行赋值操作以便让ref的值只会在DOM被更新后才会改变。这确保了我们的变量突变不会破坏<strong>依赖于可中断渲染的<a
-                            href="https://reactjs.org/blog/2018/03/01/sneak-peek-beyond-react-16.html">时间切片和
-                            Suspense</a>等特性。</strong></p>
-                      <p><strong>通常来说使用这样的ref并不是非常地必要</strong>。<strong>捕获props和state通常是更好的默认值。<strong>然而，在</strong>处理类似于intervals和订阅这样的<a
-                            href="https://overreacted.io/zh-hans/making-setinterval-declarative-with-react-hooks/">命令式API</a>时，ref会十分便利</strong>。记住，你可以像这样跟踪<em>任何</em>值
-                        —— 一个prop，一个state变量，整个props对象，或者甚至一个函数。</p>
-                      <p>例如当<code>useCallback</code>本身经常改变时。然而，<a
-                          href="https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down">使用一个reducer</a>通常是一个<a
-                          href="https://github.com/ryardley/hooks-perf-issues/pull/3">更好的解决方式</a>。</p>
-                      <p><em><strong>使用hooks的最好的心里规则是“写代码时要认为任何值都可以随时更改。</strong></em></p>
-                    </div>
-                    <div>
-                      <div></div>
-                    </div>
-                    <link
-                      href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-d7a94ec6ab.css"
-                      rel="stylesheet">
-                    <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-49037e4d27.css"
-                      rel="stylesheet">
-                  </div>
-                </article>
-
-              </div>
+              <h1 class="article-title" data-v-4a869969="">
+                React事件传参
+                <!----></h1>
+              <div itemprop="articleBody" class="article-content" data-v-4a869969=""><div class="markdown-body"><style>.markdown-body{word-break:break-word;line-height:1.75;font-weight:400;font-size:15px;overflow-x:hidden;color:#333}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{line-height:1.5;margin-top:35px;margin-bottom:10px;padding-bottom:5px}.markdown-body h1{font-size:30px;margin-bottom:5px}.markdown-body h2{padding-bottom:12px;font-size:24px;border-bottom:1px solid #ececec}.markdown-body h3{font-size:18px;padding-bottom:0}.markdown-body h4{font-size:16px}.markdown-body h5{font-size:15px}.markdown-body h6{margin-top:5px}.markdown-body p{line-height:inherit;margin-top:22px;margin-bottom:22px}.markdown-body img{max-width:100%}.markdown-body hr{border:none;border-top:1px solid #ddd;margin-top:32px;margin-bottom:32px}.markdown-body code{word-break:break-word;border-radius:2px;overflow-x:auto;background-color:#fff5f5;color:#ff502c;font-size:.87em;padding:.065em .4em}.markdown-body code,.markdown-body pre{font-family:Menlo,Monaco,Consolas,Courier New,monospace}.markdown-body pre{overflow:auto;position:relative;line-height:1.75}.markdown-body pre>code{font-size:12px;padding:15px 12px;margin:0;word-break:normal;display:block;overflow-x:auto;color:#333;background:#f8f8f8}.markdown-body a{text-decoration:none;color:#0269c8;border-bottom:1px solid #d1e9ff}.markdown-body a:active,.markdown-body a:hover{color:#275b8c}.markdown-body table{display:inline-block!important;font-size:12px;width:auto;max-width:100%;overflow:auto;border:1px solid #f6f6f6}.markdown-body thead{background:#f6f6f6;color:#000;text-align:left}.markdown-body tr:nth-child(2n){background-color:#fcfcfc}.markdown-body td,.markdown-body th{padding:12px 7px;line-height:24px}.markdown-body td{min-width:120px}.markdown-body blockquote{color:#666;padding:1px 23px;margin:22px 0;border-left:4px solid #cbcbcb;background-color:#f8f8f8}.markdown-body blockquote:after{display:block;content:""}.markdown-body blockquote>p{margin:10px 0}.markdown-body ol,.markdown-body ul{padding-left:28px}.markdown-body ol li,.markdown-body ul li{margin-bottom:0;list-style:inherit}.markdown-body ol li .task-list-item,.markdown-body ul li .task-list-item{list-style:none}.markdown-body ol li .task-list-item ol,.markdown-body ol li .task-list-item ul,.markdown-body ul li .task-list-item ol,.markdown-body ul li .task-list-item ul{margin-top:0}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:3px}.markdown-body ol li{padding-left:6px}.markdown-body .contains-task-list{padding-left:0}.markdown-body .task-list-item{list-style:none}@media (max-width:720px){.markdown-body h1{font-size:24px}.markdown-body h2{font-size:20px}.markdown-body h3{font-size:18px}}</style><p><strong>1.第一种方式，用一个箭头函数包在外面，因为这个箭头函数只有点击的时候才会执行，只有当这个箭头函数执行的时候，里面调用的方法才会执行</strong></p>
+<pre><code lang="bash" class="copyable">// 子组件负责传递参数
+<span><span>render</span></span>() {
+    <span>return</span> (
+        &lt;ol&gt;
+          {
+            this.props.todos.map(item =&gt; {
+              <span>return</span> (
+                &lt;li key={item.id}&gt;
+                  &lt;span&gt;{item.title}&lt;/span&gt;
+                  &lt;button onClick={() =&gt; {this.props.handleDelectItem(item.id)}}&gt;删除&lt;/button&gt;
+                &lt;/li&gt;
+              )
+            })
+          }
+        &lt;/ol&gt;
+    )
+  }
+<span class="copy-code-btn"></span></code></pre><pre><code lang="bash" class="copyable">// 父组件负责接受传过来的参数，进行处理
+handleDelectItem = (id) =&gt; {
+    const todos = this.state.todos.filter(item =&gt; item.id !== id)
+    this.setState({
+      todos
+    })
+  }
+  
+<span><span>render</span></span>() {
+    <span>return</span> (
+      &lt;div&gt;
+          &lt;ToDoList todos={this.state.todos} handleDelectItem={this.handleDelectItem}/&gt;
+      &lt;/div&gt;
+    );
+  }
+<span class="copy-code-btn"></span></code></pre><p><strong>注意：</strong></p>
+<p>如果在子组件中不用箭头函数将调用的方法包起来，该方法会立即执行（就相当于立即执行函数）</p>
+<pre><code lang="bash" class="copyable"><span><span>render</span></span>() {
+    <span>return</span> (
+        &lt;ol&gt;
+          {
+            this.props.todos.map(item =&gt; {
+              <span>return</span> (
+                &lt;li key={item.id}&gt;
+                  &lt;span&gt;{item.title}&lt;/span&gt;
+                  &lt;button onClick={ this.props.handleDelectItem(item.id)}&gt;删除&lt;/button&gt;
+                &lt;/li&gt;
+              )
+            })
+          }
+        &lt;/ol&gt;
+    )
+  }
+<span class="copy-code-btn"></span></code></pre><p><strong>2.第二种方式，使用bind，这个时候，可以用第二个参数来传递参数，因为bind不会立即执行</strong>(不用call是因为call方法会立即执行)</p>
+<pre><code lang="bash" class="copyable">// 子组件
+<span><span>render</span></span>() {
+    <span>return</span> (
+        &lt;ol&gt;
+          {
+            this.props.todos.map(item =&gt; {
+              <span>return</span> (
+                &lt;li key={item.id}&gt;
+                  &lt;span&gt;{item.title}&lt;/span&gt;
+                  &lt;button onClick={this.props.handleDelectItem.bind(this, item.id)}&gt;删除&lt;/button&gt;
+                &lt;/li&gt;
+              )
+            })
+          }
+        &lt;/ol&gt;
+    )
+  }
+<span class="copy-code-btn"></span></code></pre><pre><code lang="bash" class="copyable"> // 父组件
+ handleDelectItem = (id) =&gt; {
+    const todos = this.state.todos.filter(item =&gt; item.id !== id)
+    this.setState({
+      todos
+    })
+  }
+  
+<span><span>render</span></span>() {
+    <span>return</span> (
+      &lt;div&gt;
+          &lt;ToDoList todos={this.state.todos} handleDelectItem={this.handleDelectItem}/&gt;
+      &lt;/div&gt;
+    );
+  }
+<span class="copy-code-btn"></span></code></pre><p><strong>3.第三种方式，使用原生的event来传递参数，把要传递的参数绑定到dom的自定义属性上</strong>（该方法，有待完善，删除功能还未实现）</p>
+<pre><code lang="bash" class="copyable">// 子组件
+handleDelectItemEvent = (e) =&gt; {
+      const id = (e.currentTarget.getAttribute(<span>'data-id'</span>))
+      console.log(<span>"里面的"</span>,id)
+      this.props.handleDelectItem(id)
+    }
+    
+<span><span>render</span></span>() {
+    <span>return</span> (
+        &lt;ol&gt;
+          {
+            this.props.todos.map(item =&gt; {
+              <span>return</span> (
+                &lt;li key={item.id}&gt;
+                  &lt;span&gt;{item.title}&lt;/span&gt;
+                  &lt;button data-id={item.id} onClick={this.handleDelectItemEvent}&gt;删除&lt;/button&gt;
+                &lt;/li&gt;
+              )
+            })
+          }
+        &lt;/ol&gt;
+    )
+  }
+<span class="copy-code-btn"></span></code></pre><pre><code lang="bash" class="copyable">// 父组件
+handleDelectItem = (id) =&gt; {
+    const todos = this.state.todos.filter(item =&gt; item.id !== id)
+    this.setState({
+      todos
+    })
+  }
+  
+<span><span>render</span></span>() {
+    <span>return</span> (
+      &lt;div&gt;
+          &lt;ToDoList todos={this.state.todos} handleDelectItem={this.handleDelectItem}/&gt;
+      &lt;/div&gt;
+    );
+  }
+<span class="copy-code-btn"></span></code></pre><p><strong>4.第四种方式，react官方推荐</strong></p>
+<pre><code lang="bash" class="copyable">// 子组件(ToDoItem为孙子组件)
+<span><span>render</span></span>() {
+    <span>return</span> (
+        &lt;ol&gt;
+          {
+            this.props.todos.map(item =&gt; {
+              <span>return</span> (
+                &lt;ToDoItem key={item.id} {...item} handleDelectItem={this.props.handleDelectItem}/&gt;
+              )
+            })
+          }
+        &lt;/ol&gt;
+    )
+  }
+<span class="copy-code-btn"></span></code></pre><pre><code lang="bash" class="copyable">// 孙子组件（handleRemove方法是祖先组件通过父组件在传给孙子组件）
+handleRemove = () =&gt; {
+    this.props.handleDelectItem(this.props.id)
+  }
+  <span><span>render</span></span>() {
+    console.log(this.props)
+    <span>return</span> (
+      &lt;li&gt;
+        &lt;span&gt;{this.props.title}&lt;/span&gt;
+        &lt;button onClick={this.handleRemove}&gt;删除&lt;/button&gt;
+      &lt;/li&gt;
+    )
+  }
+<span class="copy-code-btn"></span></code></pre><pre><code lang="bash" class="copyable">// 祖先组件
+handleDelectItem = (id) =&gt; {
+    const todos = this.state.todos.filter(item =&gt; item.id !== id)
+    this.setState({
+      todos
+    })
+  }
+  
+<span><span>render</span></span>() {
+    <span>return</span> (
+      &lt;div&gt;
+          &lt;ToDoList todos={this.state.todos} handleDelectItem={this.handleDelectItem}/&gt;
+      &lt;/div&gt;
+    );
+  }
+<span class="copy-code-btn"></span></code></pre><h2 data-id="heading-0">补充</h2>
+<p><strong>1.defaultProps定义静态属性，用于设置默认的Props(外面有传入，则用传入的，没有则使用默认的)</strong></p>
+<pre><code lang="bash" class="copyable">// 子组件
+static defaultProps = {
+    btnText: <span>'添加'</span>
+  }
+ 
+  <span><span>render</span></span>() {
+    <span>return</span> (
+      &lt;div&gt;
+        &lt;button onClick={this.handleAddItem}&gt;{this.props.btnText}&lt;/button&gt;
+      &lt;/div&gt;
+    )
+  }
+<span class="copy-code-btn"></span></code></pre><p>外部有传入</p>
+<pre><code lang="bash" class="copyable">// 父组件
+<span><span>render</span></span>() {
+    <span>return</span> (
+      &lt;div&gt;
+        &lt;Input addToTitle={this.addToTitle} btnText=<span>'ADD'</span>/&gt;
+      &lt;/div&gt;
+    );
+  }
+<span class="copy-code-btn"></span></code></pre><p></p><figure><figcaption></figcaption></figure><p></p>
+<p>外部没有传入</p>
+<pre><code lang="bash" class="copyable">// 父组件
+<span><span>render</span></span>() {
+    <span>return</span> (
+      &lt;div&gt;
+        &lt;Input addToTitle={this.addToTitle}/&gt;
+      &lt;/div&gt;
+    );
+  }
+<span class="copy-code-btn"></span></code></pre><p></p><figure><figcaption></figcaption></figure><p></p>
+<p><strong>2.prop-types静态属性，用于检测props的类型（哪里要用就在哪里引入）</strong></p>
+<pre><code lang="bash" class="copyable">import PropTypes from <span>'prop-types'</span>
+<span class="copy-code-btn"></span></code></pre><p><strong>注意：</strong></p>
+<p>注意大小写，这里是PropTypes,用于props类型检查，这个需要安装（<strong>cnpm i prop-types -S</strong>）详情见npm官网<a target="_blank" href="https://link.juejin.cn?target=" title="" ref="nofollow noopener noreferrer"></a><a target="_blank" href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2F" title="https://www.npmjs.com/" ref="nofollow noopener noreferrer">www.npmjs.com/</a></p>
+<pre><code lang="bash" class="copyable">static propTypes = {
+    buttonText: PropTypes.string.isRequired
+  }
+<span class="copy-code-btn"></span></code></pre><p><strong>3.classname用于动态添加className到react组件，这个需要安装（cnpm i classname -S）</strong> 详情见npm官网<a target="_blank" href="https://link.juejin.cn?target=" title="" ref="nofollow noopener noreferrer"></a><a target="_blank" href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2F" title="https://www.npmjs.com/" ref="nofollow noopener noreferrer">www.npmjs.com/</a></p>
+</div></div>
 
               <hr>
               <hr>
