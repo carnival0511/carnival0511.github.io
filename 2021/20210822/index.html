@@ -154,328 +154,313 @@
         <div class="mobile-mask" style="display:none" q-show="isShow"></div>
       </nav>
 
-      <div id="wrapper" class="body-wrap" style="margin-left: 50px;">
-        <div class="menu-l">
-          <div class="canvas-wrap">
-            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1"
-              class="anm-canvas"></canvas>
+      <div id="wrapper" class="body-wrap" style="margin-left: 50px; background-color: #fff;">
+
+        <div class="post">
+          <h2>
+
+            <a id="cb_post_title_url" class="postTitle2 vertical-middle" style="font-size: 50px;">
+              <h1 style="font-size: 50px">flex布局</h1>
+            </a>
+
+          </h2>
+          <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+            <p><strong><span style="font-size: 14pt">&nbsp;壹 ❀ 引</span></strong></p>
+            <p><span style="font-size: 14px">谈到flex布局，我不知道有多少人跟我一样，在本能的想到<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">justify-content:center</span>与<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">align-items:center</span>两条属性之后，除此之外的其它属性居然显得格外陌生。</span>
+            </p>
+            <p><span
+                style="font-size: 14px">可以说包括我在内的大部分人，都是在被flex垂直水平居中方式所惊艳后才对其有所了解，以至于在日常开发中对于flex的使用，也确实更偏向于元素对齐方式的使用。</span>
+            </p>
+            <p><span
+                style="font-size: 14px">对我而言，flex布局不应该局限于对齐方式的使用，熟练掌握它对于页面布局也是有较大好处的，所以这篇文章主要是偏向于flex属性笔记式记录，毕竟真要学习flex<a
+                  href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?utm_source=tuicool"
+                  target="_blank">阮一峰大神的flex教程</a>才是首选，那么本文开始。</span></p>
+            <p><strong><span style="font-size: 14pt">&nbsp;贰 ❀ 关于flex布局</span></strong></p>
+            <p><span
+                style="font-size: 14px">我们知道当并列书写多个div标签，它们会纵向向下排位，如果我们想将多个div并列成一排，就得借助position，float，或display属性，这便是传统的盒模型做法。</span>
+            </p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190804194003826-1010252215.png"
+                alt=""></p>
+            <p><span style="font-size: 14px">而flex布局则是一种新的布局方案，通过为修改父div的<span
+                  style="background-color: rgba(255, 245, 245, 1); color: rgba(255, 80, 44, 1)">display属性</span>，让父元素成为一个<span
+                  style="background-color: rgba(255, 245, 245, 1); color: rgba(255, 80, 44, 1)">flex容器</span>，从而可以自由的操作容器中<span
+                  style="background-color: rgba(255, 245, 245, 1)">子元素(项目)</span>的排列方式。</span></p>
+            <p><span style="font-size: 14px">例如我们让多个div横向排列，传统做法是使用浮动，但浮空后因为脱离文档流的缘故，父元素会失去高度，这又涉及了清除浮动等一系列的问题。</span>
+            </p>
+            <p><span style="font-size: 14px">而flex布局相对简单很多，修改父元素<span style="color: rgba(255, 80, 44, 1)">d</span><span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">isplay:flex</span>，你会发现div自动就排列成了一行，而且没有浮动之后的副作用，从回流角度考虑，flex的性能更优于float；随着浏览器不断兼容以及旧版本的淘汰，flex布局注定会成为更为流行的布局方案。</span>
+            </p>
+            <p><span style="font-size: 14px"><img
+                  src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190804195951602-110691576.png"
+                  alt=""></span></p>
+            <p><span style="font-size: 14px">flex布局属性主要由<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">容器属性</span>和<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">项目属性</span>构成，下面我会分开讨论这两类属性。</span>
+            </p>
+            <p><strong><span style="font-size: 14pt">&nbsp;贰 ❀ 容器属性</span></strong></p>
+            <p><span style="font-size: 16px"><strong>1.flex-direction属性</strong></span></p>
+            <p><span style="font-size: 14px">取值：<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">row(默认)</span> |
+                row-reverse | column | column-reverse</span></p>
+            <p><span style="font-size: 14px">用于控制项目排列方向与顺序，<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">默认row</span>，即横向排列，项目排列顺序为正序1-2-3；row-reverse同为横向排列，但项目顺序为倒序3-2-1。</span>
+            </p>
+            <p><span style="font-size: 14px">column 与row相反，为<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">纵向排列</span>，项目顺序为正序1-2-3，column-reverse同为纵向排列，项目顺序为倒序3-2-1。</span>
+            </p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190804214423463-1446742040.png"
+                alt=""></p>
+            <p><span style="font-size: 16px"><strong>2.flex-wrap属性</strong></span></p>
+            <p><span style="font-size: 14px">取值：<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">nowrap(默认)</span> | wrap
+                | wrap-reverse</span></p>
+            <p><span style="font-size: 14px">用于控制项目是否换行，<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">nowrap表示不换行</span>；</span>
+            </p>
+            <p><span
+                style="font-size: 14px">举个例子：比如容器宽度为300px，容器中有6个宽度为60px的项目，nowrap情况下，项目会强行等分容器宽度从而不换行，那么项目实际宽度也就只有50px了，而非我们自己设置的60px。</span>
+            </p>
+            <p><span style="font-size: 14px"><img
+                  src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190804233959273-2037077325.png"
+                  alt=""></span></p>
+            <p><span style="font-size: 14px">wrap表示换行，即项目不会等分容器宽度，而是根据自身宽度进行排列，如果超出父容器宽度则自然换行。</span></p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190805235042046-1922114550.png"
+                alt=""></p>
+            <p><span style="font-size: 14px">wrap-reverse同样表示换行，需要注意的是<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">第一排会紧贴容器底部，而不是我们想象的项目6紧贴容器顶部</span>，效果与wrap相反。</span>
+            </p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190806225229283-1107311503.png"
+                alt=""></p>
+            <p><span style="font-size: 16px"><strong>3.flex-flow属性</strong></span></p>
+            <p><span style="font-size: 14px">flex-flow属性是flex-deriction与flex-wrap属性的简写集合，默认属性为<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">row
+                  nowrap</span>，即横向排列，且不换行，如果需要控制项目排列与换行，推荐使用此属性，而非单独写两个。</span></p>
+            <p><span style="font-size: 16px"><strong>4.justify-content属性</strong></span></p>
+            <p><span style="font-size: 14px">取值：<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">flex-start(默认)</span> |
+                flex-end | center | space-between | space-around | space-evenly;</span></p>
+            <p><span style="font-size: 14px">用于控制项目在横轴的对齐方式，默认flex-start即左对齐，center 为居中，对应的flex-end为右对齐。</span></p>
+            <p><span style="font-size: 14px"><img
+                  src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190806225320396-1174389728.png"
+                  alt=""><img
+                  src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190806225406240-813624376.png"
+                  alt=""><img
+                  src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190805182039008-1198238203.png"
+                  alt=""></span></p>
+            <p><span style="font-size: 14px">space-between为左右两端对齐，即<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">左右两侧项目都紧贴容器</span>，且项目之间间距相等。</span>
+            </p>
+            <p><span style="font-size: 14px"><img
+                  src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190805182705299-5638313.png"
+                  alt=""></span></p>
+            <p><span style="font-size: 14px">space-around为<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">项目之间间距为左右两侧项目到容器间距的2倍</span>，比较特别的布局，日常使用不太多。</span>
+            </p>
+            <p><span style="font-size: 14px"><img
+                  src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190805183114377-29193290.png"
+                  alt=""></span></p>
+            <p><span style="font-size: 14px">space-evenly为项目之间间距与项目与容器间距相等，相当于除去项目宽度，平均分配了剩余宽度作为项目左右margin。</span></p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190805183358497-472990119.png"
+                alt=""></p>
+            <p><span style="font-size: 16px"><strong>&nbsp;5.align-items属性</strong></span></p>
+            <p><span style="font-size: 14px">取值：flex-start | flex-end | center | baseline | <span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">stretch(默认)</span></span>
+            </p>
+            <p><span
+                style="font-size: 14px">用于控制项目在纵轴排列方式，默认stretch即如果项目没设置高度，或高度为auto，则占满整个容器，下面第一张图的项目没设置高度，其余图片中均为60px。</span>
+            </p>
+            <p><span style="font-size: 14px"><img
+                  src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190805232037403-422790942.png"
+                  alt=""></span></p>
+            <p><span style="font-size: 14px">flex-start会让项目在纵轴紧贴容器顶部，flex-end与之相反：</span></p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190806225553341-1637862774.png"
+                alt=""><img
+                src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190805233424323-1333999765.png" alt="">
+            </p>
+            <p><span style="font-size: 14px">center使用最多，自然不会陌生，在纵轴中心位置排列：</span></p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190805233530662-1567383076.png"
+                alt=""></p>
+            <p><span style="font-size: 14px">baseline比较特殊，它让项目以第一行文字的基线为参照进行排列：</span></p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190805233734288-966468395.png"
+                alt=""></p>
+            <p><span style="font-size: 14px">注意，常理来说justify-content与align-items默认分别处理项目横轴，纵轴的对齐方式，但<span
+                  style="background-color: rgba(255, 245, 245, 1)">如果我们修改了<span
+                    style="color: rgba(255, 80, 44, 1)">flex-direction为column</span></span>，它们<span
+                  style="background-color: rgba(255, 245, 245, 1)">处理的轴向会交换</span>，也就是justify-content处理纵轴，align-items处理横轴。</span>
+            </p>
+            <p><span style="font-size: 16px"><strong>6.align-content</strong></span></p>
+            <p><span style="font-size: 14px">取值：flex-start | flex-end | center | space-between | space-around |
+                space-evenly |&nbsp;<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">stretch(默认)</span>;</span>
+            </p>
+            <p><span style="font-size: 14px">用于控制多行项目的对齐方式，如果项目<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">只有一行则不会起作用</span>；默认stretch，即在项目<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">没设置高度</span>，或<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">高度为auto</span>情况下让项目填满整个容器，与align-items类似。注意，如下演示的12个项目我均没有设置高度。</span>
+            </p>
+            <p><span style="font-size: 14px"><img
+                  src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190806230418272-1997484074.png"
+                  alt=""></span></p>
+            <p><span style="font-size: 14px">flex-start ，center，flex-end 与align-items属性表现一致：</span></p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190806230543025-1540085251.png"
+                alt=""><img
+                src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190806230610292-2072864141.png"
+                alt=""><img
+                src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190806230633147-1469679443.png" alt="">
+            </p>
+            <p><span style="font-size: 14px">space-around与justify-content保持一致，即项目之间间距为上下两端项目与容器间距两倍。</span></p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190806230909994-1088454199.png"
+                alt=""></p>
+            <p><span style="font-size: 14px">space-evenly同理，项目之间间距与项目到容器之间间距相等，space-between为上下两侧项目紧贴容器。</span></p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190806231015753-1441518528.png"
+                alt=""><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190806231128539-9221266.png"
+                alt=""></p>
+            <p><span style="font-size: 14px">align-content其实也有baseline等其它可用值，表现与上面介绍过的属性一致，只是单行项目或多行项目的区别。</span></p>
+            <p><strong><span style="font-size: 14pt">&nbsp;叁 ❀ 项目属性</span></strong></p>
+            <p><span
+                style="font-size: 14px">介绍完容器属性，简单介绍下项目属性。容器属性是加在容器上的，那么项目属性呢，就是写在项目上的，就好比容器属性给ul，项目属性给li差不多一个意思。</span>
+            </p>
+            <p><span style="font-size: 16px"><strong>1.order</strong></span></p>
+            <p><span style="font-size: 14px">取值：<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">默认0</span>，用于决定项目排列顺序，数值越小，项目排列越靠前。</span>
+            </p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190808184738718-2028015504.png"
+                alt=""></p>
+            <p><span style="font-size: 16px"><strong>2.flex-grow</strong></span></p>
+            <p><span style="font-size: 14px">取值：<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">默认0</span>，用于决定项目在有剩余空间的情况下是否放大，<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">默认不放大；</span>注意，即便设置了固定宽度，也会放大。</span>
+            </p>
+            <p><span style="font-size: 14px">假设默认三个项目中前两个个项目都是0，最后一个是1，最后的项目会沾满剩余所有空间。</span></p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190808185733909-1052417826.png"
+                alt=""></p>
+            <p><span style="font-size: 14px">假设只有第一个项目默认为0，后面两个项目flex-grow均为1，那么后两个项目平分剩余空间。</span></p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190808185832446-278289995.png"
+                alt=""></p>
+            <p><span style="font-size: 14px">假设第一个项目默认为0，第二个项目为flex-grow:2，最后一个项目为1，则第二个项目在放大时所占空间是最后项目的两倍。</span></p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190808190032536-1526107911.png"
+                alt=""></p>
+            <p><span style="font-size: 16px"><strong>3.flex-shrink</strong></span></p>
+            <p><span style="font-size: 14px">取值：<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">默认1</span>，用于决定项目在空间不足时是否缩小，默认项目都是1，即<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">空间不足时大家一起等比缩小；</span>注意，即便设置了固定宽度，也会缩小。</span>
+            </p>
+            <p><span style="font-size: 14px">但如果某个项目flex-shrink设置为0，则即便空间不够，自身也不缩小。</span></p>
+            <p><img src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190808191100715-1387948858.gif"
+                alt=""></p>
+            <p><span style="font-size: 14px">上图中第二个项目flex-shrink为0，所以自身不会缩小。</span></p>
+            <p><span style="font-size: 16px"><strong>4.flex-basis</strong></span></p>
+            <p><span style="font-size: 14px">取值：<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">默认auto</span>，用于设置项目宽度，默认auto时，项目会保持默认宽度，或者以width为自身的宽度，但<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">如果设置了flex-basis，权重会width属性高，因此会覆盖widtn属性。</span></span>
+            </p>
+            <p><span style="font-size: 14px"><span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)"><img
+                    src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190808192004493-824002338.png"
+                    alt=""></span></span></p>
+            <p><span style="font-size: 14px">上图中先设置了flex-basis属性，后设置了width属性，但宽度依旧以flex-basis属性为准。</span></p>
+            <p><span style="font-size: 16px"><strong>5.flex</strong></span></p>
+            <p><span style="font-size: 14px">取值：<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">默认0 1
+                  auto</span>，flex属性是flex-grow，flex-shrink与flex-basis三个属性的简写，用于定义项目放大，缩小与宽度。</span></p>
+            <p><span style="font-size: 14px">该属性有两个快捷键值，分别是<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">auto(1 1
+                  auto)等分放大缩小，</span>与<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">none(0 0
+                  auto)不放大不缩小。</span></span></p>
+            <p><span style="font-size: 16px"><strong>6.align-self</strong></span></p>
+            <p><span style="font-size: 14px">取值：<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">auto(默认)</span> |
+                flex-start | flex-end | center | baseline | stretch，表示继承父容器的align-items属性。如果没父元素，则<span
+                  style="color: rgba(255, 80, 44, 1); background-color: rgba(255, 245, 245, 1)">默认stretch</span>。</span>
+            </p>
+            <p><span style="font-size: 14px">用于让个别项目拥有与其它项目不同的对齐方式，各值的表现与父容器的align-items属性完全一致。</span></p>
+            <p><span style="font-size: 14px"><img
+                  src="https://img2018.cnblogs.com/blog/1213309/201908/1213309-20190808193900553-1175612273.png"
+                  alt=""></span></p>
+            <p><span
+                style="font-size: 14px">到这里，flex布局属性也就介绍完毕了，老实说，跟着完整写了一遍，发现之前很多理解都错误了，最骚的是部分属性单词我都拼错了，这篇博客就当flex笔记整理，若有缘人能看见，也希望能帮助到你。</span>
+            </p>
           </div>
-          <div id="js-content" class="content-ll">
-            <article id="copy" class="article article-type-post " itemscope itemprop="blogPost">
-              <div class="article-inner">
-
-                <header class="article-header">
-
-
-                  <h1 class="article-title" itemprop="name">
-                    React Fiber
-                  </h1>
-
-
-
-                  <a href="/20210718/" class="archive-article-date">
-                    <time datetime="2021-08-01T10:45:00.190Z" itemprop="datePublished"><i
-                        class="icon-calendar icon"></i>2021-08-01</time>
-                  </a>
-
-                </header>
-
-
-                <div class="news-page article-page">
-                  <p></p>
-                  <h2>Fiber出现的背景?</h2>
-                  <p>
-                  在早期的 <a href="https://www.w3cschool.cn/react/">React</a> 版本中，也就是 React16.8 版本之前。</p>
-                  <p>
-                  大量的<code>同步计算任务</code>阻塞了浏览器的UI渲染。默认情况下，<code>JS运算</code>、<code>页面布局</code>和<code>页面绘制渲染</code>都是运行在浏览器的<code>主线程</code>当中，他们之间是<code>互斥</code>的关系。</p>
-                  <p>
-                  如果 JS 运算持续占用主线程，页面就没法得到及时的更新，当我们调用<code>setState</code>更新页面的时候，<a href="https://www.w3cschool.cn/react/">React</a> 会遍历应用的所有节点，与老的 dom 节点进行 diff 算法的对比，最小代价更新页面，<code>即使</code>这样，整个过程也是一气呵成，<code>不能被打断</code>的，如果页面元素很多，整个过程占用的时间就可能超过16毫秒，出现掉帧的现象。</p>
-                  <p>
-                  针对这一现象，<a href="https://www.w3cschool.cn/react/">React</a> 团队从框架层面对 web 页面的运行机制做了优化，此后，<code>Fiber</code>诞生了。</p>
-                  <p>
-                  说到16ms，我们来看这样的一个概念</p>
-                  <p></p>
-                  <h3>屏幕刷新率</h3>
-                  <p></p>
-                  <ul>
-                  <li>目前大多数设备的屏幕刷新率为60次/秒</li>
-                  <li>浏览器的渲染动画或页面的每一帧的速率也需要跟设备屏幕的刷新率保持一致。</li>
-                  <li>页面是一帧一帧绘制出来的，当每秒绘制的帧数(FPS)达到60时，页面是流畅的，小于这个值时，用户会感觉到卡顿。</li>
-                  <li>每个帧的预算时间是16.66毫秒（1秒/60）</li>
-                  <li>1s 60帧，所以我们书写代码时尽量不让一帧的工作量超过16ms</li>
-                  </ul>
-                  <p></p>
-                  <h2>Fiber的诞生</h2>
-                  <p>
-                  解决主线程长时间被 JS 晕眩占用这一问题的基本思路，是将<code>运算切割为多个步骤</code>，分批完成。也就是说在完成一部分任务之后， 将<code>控制权交回</code>给浏览器，让浏览器有时间再进行页面的渲染。等浏览器忙完之后，再继续之前React未完成的任务。</p>
-                  <p>
-                  旧版 React <code>通过递归</code>的方式进行渲染，使用的是 JS 引擎自身的函数调用栈，<strong>它会一直执行到栈空为止</strong>。</p>
-                  <p>
-                  而<code>Fiber</code>实现了自己的组件调用栈，它以链表的形式遍历组件树，可以灵活地暂停、继续和丢弃执行的任务。实现的方式是使用了 浏览器的<code>requestIdleCallback</code>这一 API。官方的解释是这样的：</p>
-                  <p></p>
-                  <blockquote>
-                  <p>window.requestIdleCallback()会在浏览器<code>空闲时期</code>依次调用函数，这就可以让开发者在<code>主事件循环</code>中执行<code>后台</code>或<code>优先级低</code>的任务，而且不会像对动画和用户交互这些延迟触发产生关键的事件影响。函数一般会按先进先调用的顺序执行，除非函数在浏览器调用它之前就到了它的超时时间。</p>
-                  </blockquote>
-                  <p></p>
-                  <h3>requestIdleCallback的核心用法</h3>
-                  <p></p>
-                  <ul>
-                  <li>希望快速响应用户，让用户觉得够快，不能阻塞用户的交互行为</li>
-                  <li>requestIdleCallback 使开发者能够在<code>主事件循环</code>上执行后台和<code>低优先级</code>的工作，而不会影响延迟关键事件，例如动画和输入的响应</li>
-                  <li>正常帧任务完成后<code>没超过16ms</code>，说明时间有赋予，此时就会执行<code>requestIdleCallback</code>里注册的任务</li>
-                  </ul>
-                  <p></p>
-                  <h3>requestIdleCallback执行流程</h3>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930006787384.jpg" alt="requestIdleCallback执行流程" title="requestIdleCallback执行流程" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <h2>Fiber是什么</h2>
-                  <p></p>
-                  <h3>Fiber是一个执行单元</h3>
-                  <p>
-                  Fiber 是一个执行单元，<strong>每次执行完一个执行单元, React 就会检查现在还剩多少时间</strong>，如果没有时间就将控制权让出去</p>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930047870679.jpg" alt="Fiber是一个执行单元" title="Fiber是一个执行单元" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <h3>Fiber是一种数据结构</h3>
-                  <p>
-                  <a href="https://www.w3cschool.cn/react/">React</a> 目前的做法是使用链表, 每个 VirtualDOM 节点内部表示为一个<code>Fiber</code>，它可以用一个 JS 对象来表示：</p>
-                  <p></p>
-                  <pre style="max-width: 100%; position: relative"><a class="code-copy right0" title="复制到剪切板"><i class="icon-copy"></i></a><code class="hljs javascript"><span class="hljs-keyword">const</span> fiber = {
-                    stateNode, <span class="hljs-comment">// 节点实例</span>
-                    child,     <span class="hljs-comment">// 子节点</span>
-                    sibling,   <span class="hljs-comment">// 兄弟节点</span>
-                    <span class="hljs-keyword">return</span>,    <span class="hljs-comment">// 父节点</span>
-                  }</code></pre>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930080984033.jpg" alt="Fiber是一种数据结构" title="Fiber是一种数据结构" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <h2>Fiber之前的协调阶段</h2>
-                  <p></p>
-                  <ul>
-                  <li>React 会<code>递归比对</code>VirtualDOM树，找出<code>需要变动</code>的节点，然后同步更新它们。这个过程 React 称为Reconcilation(协调)</li>
-                  <li>在Reconcilation期间，React 会<code>一直占用</code>着浏览器资源，一则会导致用户触发的事件得不到响应, 二则会导致掉帧，用户可能会感觉到卡顿</li>
-                  </ul>
-                  <p></p>
-                  <pre style="max-width: 100%; position: relative"><a class="code-copy right0" title="复制到剪切板"><i class="icon-copy"></i></a><code class="hljs javascript"><span class="hljs-keyword">let</span> root = {
-                    key: <span class="hljs-string">'A1'</span>,
-                    children: [
-                      {
-                        key: <span class="hljs-string">'B1'</span>,
-                        children: [
-                          {
-                            key: <span class="hljs-string">'C1'</span>,
-                            children: []
-                          },
-                          {
-                            key: <span class="hljs-string">'C2'</span>,
-                            children: []
-                          }
-                        ]
-                      },
-                      {
-                        key: <span class="hljs-string">'B2'</span>,
-                        children: []
-                      }
-                    ]
-                  }
-                  
-                  
-                  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">walk</span>(<span class="hljs-params">element</span>) </span>{
-                    doWork(element);
-                    element.children.forEach(walk);
-                  }
-                  
-                  
-                  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doWork</span>(<span class="hljs-params">element</span>) </span>{
-                    <span class="hljs-built_in">console</span>.log(element.key);
-                  }
-                  walk(root);</code></pre>
-                  <p></p>
-                  <blockquote>
-                  <p>在 Fiber 出现之前， React 会不断递归遍历虚拟 DOM 节点，占用着浏览器资源，积极地浪费性能，造成卡顿现象，且协调阶段是不能<code>被打断的</code>。</p>
-                  </blockquote>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930159603824.jpg" alt="React不断递归遍历虚拟DOM节点" title="React不断递归遍历虚拟DOM节点" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <blockquote>
-                  <p>Fiber 出现之后，通过某些 Fiber 调度策略合理分配 CPU 资源，让自己的<code>协调阶段变成可被终端</code>，<code>适时</code>地让 CPU（浏览器）执行权，提高了性能优化。</p>
-                  </blockquote>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930185486238.jpg" alt="协调阶段变成可被终端" title="协调阶段变成可被终端" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <h2>Fiber执行阶段</h2>
-                  <p>
-                  每次渲染有两个阶段：Reconciliation(协调\render阶段)和Commit(提交阶段)</p>
-                  <p></p>
-                  <ul>
-                  <li>协调阶段: 这个阶段<code>可以被中断</code>, 通过Dom-Diff算法找出所有节点变更，例如<code>节点新增</code>、<code>删除</code>、<code>属性变更</code>等等, 这些变更React 称之为<code>副作用</code>(Effect)</li>
-                  <li>提交阶段: 将上一个阶段计算出来的需要处理的副作用(Effects)一次性执行了。这个阶段必须<code>同步</code>执行，<code>不能被打断</code></li>
-                  </ul>
-                  <p>
-                  简单理解的话</p>
-                  <p></p>
-                  <ul>
-                  <li>阶段1：生成Fiber树，得出需要<code>更新</code>的<code>节点信息</code>。（<code>可打断</code>）</li>
-                  <li>阶段2：将需要更新的节点一次性地<code>批量更新</code>。（<code>不可打断</code>）</li>
-                  </ul>
-                  <p></p>
-                  <blockquote>
-                  <p>Fiber的协调阶段，可以被优先级较高的任务（如键盘输入）打断。</p>
-                  <p>
-                  阶段1可被打断的特性，让<code>优先级更高的任务先执行</code>，从框架层面大大降低了页面掉帧的概率。</p>
-                  </blockquote>
-                  <p></p>
-                  <h2>Fiber执行流程</h2>
-                  <p></p>
-                  <h3>render阶段</h3>
-                  <p>
-                  Fiber Reconciliation(协调) 在阶段一进行 Diff 计算的时候，会生成一棵 <code>Fiber 树</code>。这棵树是在 <code>Virtual DOM 树</code>的基础上增加额外的信息<code>生成</code>来的，它本质来说是一个链表。</p>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930359341776.jpg" alt="render阶段" title="render阶段" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <h3>commit提交阶段</h3>
-                  <p>
-                  <strong>Fiber 树在首次渲染的时候会一次过生成</strong>。在<code>后续</code>需要 <code>Diff</code> 的时候，会根据已有树和最新 Virtual DOM 的信息，生成一棵新的树。这颗新树每生成一个新的节点，都会将控制权交回给主线程，去检查有没有优先级更高的任务需要执行。如果没有，则继续构建树的过程。</p>
-                  <p></p>
-                  <blockquote>
-                  <p>1.如果过程中有优先级更高的任务需要进行，则 Fiber Reconciler 会丢弃正在生成的树，在空闲的时候再重新执行一遍。</p>
-                  <p>
-                  2.在构造 Fiber 树的过程中，Fiber Reconciler 会将需要更新的节点信息保存在<code>Effect List</code>当中，在阶段二执行的时候，会批量更新相应的节点。</p>
-                  </blockquote>
-                  <p></p>
-                  <h3>细节拓展</h3>
-                  <p></p>
-                  <h4>render阶段是如何遍历，生成Fiber树的？</h4>
-                  <p></p>
-                  <pre style="max-width: 100%; position: relative"><a class="code-copy right0" title="复制到剪切板"><i class="icon-copy"></i></a><code class="hljs javascript">&lt;div&gt;
-                  
-                    
-                  
-                      
-                  
-                        
-                  
-                        
-                  
-                      
-                  
-                      
-                  
-                    
-                  <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></code></pre>
-                  <p></p>
-                  <ul>
-                  <li>从顶点开始遍历</li>
-                  <li>如果有第一个儿子，先遍历第一个儿子</li>
-                  <li>如果没有第一个儿子，标志着此节点遍历完成</li>
-                  <li>如果有弟弟遍历弟弟</li>
-                  <li>如果有没有下一个弟弟，返回父节点标识完成父节点遍历，如果有叔叔遍历叔叔</li>
-                  <li>没有父节点遍历结束</li>
-                  </ul>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930419125324.jpg" alt="render节点遍历规则" title="render节点遍历规则" style="cursor: zoom-in;"></p>
-                  <p></p>
-                  <h4>commit阶段，是如何commit的？</h4>
-                  <p>
-                  类比 Git 分支功能,从旧树中 fork 出来一份，在新分支进行添加、删除和更新操作，经过测试后进行提交。</p>
-                  <p>
-                  <img src="https://atts.w3cschool.cn/attachments/image/20200924/1600930439571222.jpg" alt="commit阶段，是如何commit的" title="commit阶段，是如何commit的" style="cursor: zoom-in;"></p>
-                  <i class="i-icon i-icon-down"></i>
-                  </div>
-                  </div>
-                  </div>
-
-              </div>
-
-              <hr>
-              <hr>
-              <hr>
-              <hr>
-              <div class="page-reward">
-                <a href="javascript:;" class="page-reward-btn tooltip-top">
-                  <div class="tooltip tooltip-east">
-                    <span class="tooltip-item">
-                      赏
-                    </span>
-                    <span class="tooltip-content">
-                      <span class="tooltip-text">
-                        <span class="tooltip-inner">
-                          <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
-                              class="icon icon-quo-right"></i></p>
-                          <div class="reward-box">
-
-
-                          </div>
-                        </span>
-                      </span>
-                    </span>
-                  </div>
-                </a>
-              </div>
-
-          </div>
-          <div class="article-info article-info-index">
-
-
-
-
-
-
-
-
-            <div class="share-btn share-icons tooltip-left">
-              <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                  <a href="javascript:;" class="share-sns share-outer">
-                    <i class="icon icon-share"></i>
-                  </a>
-                </span>
-                <span class="tooltip-content">
-                  <div class="share-wrap">
-                    <div class="share-icons">
-                      <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-                        <i class="icon icon-weibo"></i>
-                      </a>
-                      <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-                        <i class="icon icon-weixin"></i>
-                      </a>
-                      <a class="qq share-sns" href="javascript:;" data-type="qq">
-                        <i class="icon icon-qq"></i>
-                      </a>
-                      <a class="douban share-sns" href="javascript:;" data-type="douban">
-                        <i class="icon icon-douban"></i>
-                      </a>
-                      <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-                        <i class="icon icon-qzone"></i>
-                      </a>
-                      <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-                        <i class="icon icon-facebook"></i>
-                      </a>
-                      <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-                        <i class="icon icon-twitter"></i>
-                      </a>
-                      <a class="google share-sns" href="javascript:;" data-type="google">
-                        <i class="icon icon-google"></i>
-                      </a>
-                    </div>
-                  </div>
-                </span>
-              </div>
+          <div class="clear"></div>
+          <div id="blog_post_info_block">
+            <div id="EntryTag">
+              标签:
+              <a href="https://www.cnblogs.com/echolun/tag/css/">css</a>
             </div>
 
-            <div class="page-modal wx-share js-wx-box">
-              <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-              <p>扫一扫，分享到微信</p>
-              <div class="wx-qrcode">
-                <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/04/我的第一篇博客文章/" alt="微信分享二维码">
+            <div id="blog_post_info">
+              <div id="green_channel">
+                <a href="javascript:void(0);" id="green_channel_digg"
+                  onclick="DiggIt(11299460,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+                <a id="green_channel_follow" onclick="follow('6688019c-34af-4499-5ab9-08d49c352df3');"
+                  href="javascript:void(0);">关注我</a>
+                <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;"
+                  href="javascript:void(0);">收藏该文</a>
+                <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img
+                    src="https://common.cnblogs.com/images/icon_weibo_24.png" alt=""></a>
+                <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img
+                    src="https://common.cnblogs.com/images/wechat.png" alt=""></a>
               </div>
+              <div id="author_profile">
+                <div id="author_profile_info" class="author_profile_info">
+                  <a href="https://home.cnblogs.com/u/echolun/" target="_blank"><img
+                      src="https://pic.cnblogs.com/face/1213309/20210721144841.png" class="author_avatar" alt=""></a>
+                  <div id="author_profile_detail" class="author_profile_info">
+                    <a href="https://home.cnblogs.com/u/echolun/">听风是风</a><br>
+                    <a href="https://home.cnblogs.com/u/echolun/followees/">关注 - 3</a><br>
+                    <a href="https://home.cnblogs.com/u/echolun/followers/">粉丝 - 698</a>
+                  </div>
+                </div>
+                <div class="clear"></div>
+                <div id="author_profile_honor"></div>
+                <div id="author_profile_follow">
+                  <a href="javascript:void(0);"
+                    onclick="follow('6688019c-34af-4499-5ab9-08d49c352df3');return false;">+加关注</a>
+                </div>
+              </div>
+              <div id="div_digg">
+                <div class="diggit" onclick="votePost(11299460,'Digg')">
+                  <span class="diggnum" id="digg_count">27</span>
+                </div>
+                <div class="buryit" onclick="votePost(11299460,'Bury')">
+                  <span class="burynum" id="bury_count">0</span>
+                </div>
+                <div class="clear"></div>
+                <div class="diggword" id="digg_tips">
+                </div>
+              </div>
+
+              <script type="text/javascript">
+                currentDiggType = 0;
+              </script>
             </div>
+            <div class="clear"></div>
+            <div id="post_next_prev">
 
-            <div class="mask js-mask"></div>
+              <a href="https://www.cnblogs.com/echolun/p/11316548.html" class="p_n_p_prefix">« </a> 上一篇： <a
+                href="https://www.cnblogs.com/echolun/p/11316548.html"
+                title="发布于 2019-08-07 20:28">angularjs中使用锚点，angular路由导致锚点失效的两种解决方案</a>
+              <br>
+              <a href="https://www.cnblogs.com/echolun/p/11325782.html" class="p_n_p_prefix">» </a> 下一篇： <a
+                href="https://www.cnblogs.com/echolun/p/11325782.html"
+                title="发布于 2019-08-12 19:37">js实现addClass方法，classList与className有什么区别？</a>
 
-            <div class="clearfix"></div>
+            </div>
           </div>
+          <p class="postfoot">
+            posted on
+            <span id="post-date">2019-08-08 19:42</span>&nbsp;
+            <a href="https://www.cnblogs.com/echolun/">听风是风</a>&nbsp;
+            阅读(<span id="post_view_count">121459</span>)&nbsp;
+            评论(<span id="post_comment_count">30</span>)&nbsp;
+            <a href="https://i.cnblogs.com/EditPosts.aspx?postid=11299460" rel="nofollow">编辑</a>&nbsp;
+            <a href="javascript:void(0)" onclick="AddToWz(11299460);return false;">收藏</a>&nbsp;
+            <a href="javascript:void(0)"
+              onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '11299460', targetLink: 'https://www.cnblogs.com/echolun/p/11299460.html', title: '一篇文章弄懂flex布局' })">举报</a>
+          </p>
         </div>
         </article>
 
