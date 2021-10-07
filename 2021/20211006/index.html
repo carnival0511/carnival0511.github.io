@@ -116,15 +116,6 @@
             <hgroup>
               <h1 class="header-author js-header-author">carnival</h1>
             </hgroup>
-
-
-
-
-
-
-
-
-
             <nav class="header-nav">
               <div class="social">
 
@@ -155,413 +146,454 @@
       </nav>
 
       <article itemscope="itemscope" itemtype="http://schema.org/Article" data-original-type="0" class="article"
-        style="" data-v-c804cdb8="" data-v-02288331="" data-entry-id="6844903556084924423"
-        data-draft-id="6845075372678053902">
-        <meta itemprop="url" content="https://juejin.im/post/6844903556084924423">
-        <meta itemprop="headline" content="JavaScript异步机制详解">
-        <meta itemprop="keywords" content="JavaScript,浏览器,前端,Ajax">
-        <meta itemprop="datePublished" content="2018-01-26T07:14:14.000Z">
-        <meta itemprop="image"
-          content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-assets/icon/icon-128.png~tplv-t2oaga2asx-image.image">
-        <div itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person">
-          <meta itemprop="name" content="Ruheng">
-          <meta itemprop="url" content="https://juejin.cn/user/1327865774743031">
-        </div>
-        <div itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization">
-          <meta itemprop="name" content="掘金">
-          <div itemprop="logo" itemscope="itemscope" itemtype="https://schema.org/ImageObject">
-            <meta itemprop="url"
-              content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-assets/icon/icon-white-180.png~tplv-t2oaga2asx-image.image">
-            <meta itemprop="width" content="180">
-            <meta itemprop="height" content="180">
-          </div>
-        </div>
-        <div data-v-c804cdb8="" class="author-info-block"><a data-v-c804cdb8="" href="/user/1327865774743031"
-            target="_blank" rel="" class="avatar-link"></a>
-          <div data-v-c804cdb8="" class="author-info-box">
-            <div data-v-c804cdb8="" class="author-name"><a data-v-2ecffe9f="" data-v-c804cdb8=""
-                href="/user/1327865774743031" target="_blank" rel="" class="username username ellipsis"><span
-                  data-v-2ecffe9f="" class="name" style="max-width: calc(100% - 50px);">
+        style="" data-v-269274a7="" data-v-b41016a0="" data-entry-id="6844903682283143181"
+        data-draft-id="6845075617818345479">
+        <h1 data-v-269274a7="" class="article-title">
+          理解 JavaScript 中的执行上下文和执行栈
+          <!---->
+        </h1>
+        <!---->
+        <!---->
+        <div data-v-269274a7="" class="article-content" itemprop="articleBody">
+          <div class="markdown-body html">
+            <style>
+              .markdown-body {
+                word-break: break-word;
+                line-height: 1.75;
+                font-weight: 400;
+                font-size: 15px;
+                overflow-x: hidden;
+                color: #333
+              }
 
-                </span> <span data-v-3acffd25="" data-v-2ecffe9f="" blank="true" class="rank"></span> </a></div>
-            JavaScript异步机制详解
-            <!---->
-            </h1>
-            <!---->
-            <!---->
-            <div data-v-c804cdb8="" class="article-content" itemprop="articleBody">
-              <div class="markdown-body html">
-                <style>
-                  .markdown-body {
-                    word-break: break-word;
-                    line-height: 1.75;
-                    font-weight: 400;
-                    font-size: 15px;
-                    overflow-x: hidden;
-                    color: #333
-                  }
+              .markdown-body h1,
+              .markdown-body h2,
+              .markdown-body h3,
+              .markdown-body h4,
+              .markdown-body h5,
+              .markdown-body h6 {
+                line-height: 1.5;
+                margin-top: 35px;
+                margin-bottom: 10px;
+                padding-bottom: 5px
+              }
 
-                  .markdown-body h1,
-                  .markdown-body h2,
-                  .markdown-body h3,
-                  .markdown-body h4,
-                  .markdown-body h5,
-                  .markdown-body h6 {
-                    line-height: 1.5;
-                    margin-top: 35px;
-                    margin-bottom: 10px;
-                    padding-bottom: 5px
-                  }
+              .markdown-body h1 {
+                font-size: 30px;
+                margin-bottom: 5px
+              }
 
-                  .markdown-body h1 {
-                    font-size: 30px;
-                    margin-bottom: 5px
-                  }
+              .markdown-body h2 {
+                padding-bottom: 12px;
+                font-size: 24px;
+                border-bottom: 1px solid #ececec
+              }
 
-                  .markdown-body h2 {
-                    padding-bottom: 12px;
-                    font-size: 24px;
-                    border-bottom: 1px solid #ececec
-                  }
+              .markdown-body h3 {
+                font-size: 18px;
+                padding-bottom: 0
+              }
 
-                  .markdown-body h3 {
-                    font-size: 18px;
-                    padding-bottom: 0
-                  }
+              .markdown-body h4 {
+                font-size: 16px
+              }
 
-                  .markdown-body h4 {
-                    font-size: 16px
-                  }
+              .markdown-body h5 {
+                font-size: 15px
+              }
 
-                  .markdown-body h5 {
-                    font-size: 15px
-                  }
+              .markdown-body h6 {
+                margin-top: 5px
+              }
 
-                  .markdown-body h6 {
-                    margin-top: 5px
-                  }
+              .markdown-body p {
+                line-height: inherit;
+                margin-top: 22px;
+                margin-bottom: 22px
+              }
 
-                  .markdown-body p {
-                    line-height: inherit;
-                    margin-top: 22px;
-                    margin-bottom: 22px
-                  }
+              .markdown-body img {
+                max-width: 100%
+              }
 
-                  .markdown-body img {
-                    max-width: 100%
-                  }
+              .markdown-body hr {
+                border: none;
+                border-top: 1px solid #ddd;
+                margin-top: 32px;
+                margin-bottom: 32px
+              }
 
-                  .markdown-body hr {
-                    border: none;
-                    border-top: 1px solid #ddd;
-                    margin-top: 32px;
-                    margin-bottom: 32px
-                  }
+              .markdown-body code {
+                word-break: break-word;
+                border-radius: 2px;
+                overflow-x: auto;
+                background-color: #fff5f5;
+                color: #ff502c;
+                font-size: .87em;
+                padding: .065em .4em
+              }
 
-                  .markdown-body code {
-                    word-break: break-word;
-                    border-radius: 2px;
-                    overflow-x: auto;
-                    background-color: #fff5f5;
-                    color: #ff502c;
-                    font-size: .87em;
-                    padding: .065em .4em
-                  }
+              .markdown-body code,
+              .markdown-body pre {
+                font-family: Menlo, Monaco, Consolas, Courier New, monospace
+              }
 
-                  .markdown-body code,
-                  .markdown-body pre {
-                    font-family: Menlo, Monaco, Consolas, Courier New, monospace
-                  }
+              .markdown-body pre {
+                overflow: auto;
+                position: relative;
+                line-height: 1.75
+              }
 
-                  .markdown-body pre {
-                    overflow: auto;
-                    position: relative;
-                    line-height: 1.75
-                  }
+              .markdown-body pre>code {
+                font-size: 12px;
+                padding: 15px 12px;
+                margin: 0;
+                word-break: normal;
+                display: block;
+                overflow-x: auto;
+                color: #333;
+                background: #f8f8f8
+              }
 
-                  .markdown-body pre>code {
-                    font-size: 12px;
-                    padding: 15px 12px;
-                    margin: 0;
-                    word-break: normal;
-                    display: block;
-                    overflow-x: auto;
-                    color: #333;
-                    background: #f8f8f8
-                  }
+              .markdown-body a {
+                text-decoration: none;
+                color: #0269c8;
+                border-bottom: 1px solid #d1e9ff
+              }
 
-                  .markdown-body a {
-                    text-decoration: none;
-                    color: #0269c8;
-                    border-bottom: 1px solid #d1e9ff
-                  }
+              .markdown-body a:active,
+              .markdown-body a:hover {
+                color: #275b8c
+              }
 
-                  .markdown-body a:active,
-                  .markdown-body a:hover {
-                    color: #275b8c
-                  }
+              .markdown-body table {
+                display: inline-block !important;
+                font-size: 12px;
+                width: auto;
+                max-width: 100%;
+                overflow: auto;
+                border: 1px solid #f6f6f6
+              }
 
-                  .markdown-body table {
-                    display: inline-block !important;
-                    font-size: 12px;
-                    width: auto;
-                    max-width: 100%;
-                    overflow: auto;
-                    border: 1px solid #f6f6f6
-                  }
+              .markdown-body thead {
+                background: #f6f6f6;
+                color: #000;
+                text-align: left
+              }
 
-                  .markdown-body thead {
-                    background: #f6f6f6;
-                    color: #000;
-                    text-align: left
-                  }
+              .markdown-body tr:nth-child(2n) {
+                background-color: #fcfcfc
+              }
 
-                  .markdown-body tr:nth-child(2n) {
-                    background-color: #fcfcfc
-                  }
+              .markdown-body td,
+              .markdown-body th {
+                padding: 12px 7px;
+                line-height: 24px
+              }
 
-                  .markdown-body td,
-                  .markdown-body th {
-                    padding: 12px 7px;
-                    line-height: 24px
-                  }
+              .markdown-body td {
+                min-width: 120px
+              }
 
-                  .markdown-body td {
-                    min-width: 120px
-                  }
+              .markdown-body blockquote {
+                color: #666;
+                padding: 1px 23px;
+                margin: 22px 0;
+                border-left: 4px solid #cbcbcb;
+                background-color: #f8f8f8
+              }
 
-                  .markdown-body blockquote {
-                    color: #666;
-                    padding: 1px 23px;
-                    margin: 22px 0;
-                    border-left: 4px solid #cbcbcb;
-                    background-color: #f8f8f8
-                  }
+              .markdown-body blockquote:after {
+                display: block;
+                content: ""
+              }
 
-                  .markdown-body blockquote:after {
-                    display: block;
-                    content: ""
-                  }
+              .markdown-body blockquote>p {
+                margin: 10px 0
+              }
 
-                  .markdown-body blockquote>p {
-                    margin: 10px 0
-                  }
+              .markdown-body ol,
+              .markdown-body ul {
+                padding-left: 28px
+              }
 
-                  .markdown-body ol,
-                  .markdown-body ul {
-                    padding-left: 28px
-                  }
+              .markdown-body ol li,
+              .markdown-body ul li {
+                margin-bottom: 0;
+                list-style: inherit
+              }
 
-                  .markdown-body ol li,
-                  .markdown-body ul li {
-                    margin-bottom: 0;
-                    list-style: inherit
-                  }
+              .markdown-body ol li .task-list-item,
+              .markdown-body ul li .task-list-item {
+                list-style: none
+              }
 
-                  .markdown-body ol li .task-list-item,
-                  .markdown-body ul li .task-list-item {
-                    list-style: none
-                  }
+              .markdown-body ol li .task-list-item ol,
+              .markdown-body ol li .task-list-item ul,
+              .markdown-body ul li .task-list-item ol,
+              .markdown-body ul li .task-list-item ul {
+                margin-top: 0
+              }
 
-                  .markdown-body ol li .task-list-item ol,
-                  .markdown-body ol li .task-list-item ul,
-                  .markdown-body ul li .task-list-item ol,
-                  .markdown-body ul li .task-list-item ul {
-                    margin-top: 0
-                  }
+              .markdown-body ol ol,
+              .markdown-body ol ul,
+              .markdown-body ul ol,
+              .markdown-body ul ul {
+                margin-top: 3px
+              }
 
-                  .markdown-body ol ol,
-                  .markdown-body ol ul,
-                  .markdown-body ul ol,
-                  .markdown-body ul ul {
-                    margin-top: 3px
-                  }
+              .markdown-body ol li {
+                padding-left: 6px
+              }
 
-                  .markdown-body ol li {
-                    padding-left: 6px
-                  }
+              .markdown-body .contains-task-list {
+                padding-left: 0
+              }
 
-                  .markdown-body .contains-task-list {
-                    padding-left: 0
-                  }
+              .markdown-body .task-list-item {
+                list-style: none
+              }
 
-                  .markdown-body .task-list-item {
-                    list-style: none
-                  }
+              @media (max-width:720px) {
+                .markdown-body h1 {
+                  font-size: 24px
+                }
 
-                  @media (max-width:720px) {
-                    .markdown-body h1 {
-                      font-size: 24px
-                    }
+                .markdown-body h2 {
+                  font-size: 20px
+                }
 
-                    .markdown-body h2 {
-                      font-size: 20px
-                    }
+                .markdown-body h3 {
+                  font-size: 18px
+                }
+              }
+            </style>
+            <p>如果你是或者想成为一名 JavaScript 开发者，你必须知道 JavaScript 程序内部是如何执行的。理解执行上下文和执行栈对于理解其他 JavaScript
+              概念（如变量声明提升，作用域和闭包）至关重要。</p>
+            <p>正确理解执行上下文和执行栈的概念将使您成为更出色的 JavaScript 开发者。</p>
+            <p>闲话少说，让我们开始吧 :)</p>
+            <hr>
 
-                    .markdown-body h3 {
-                      font-size: 18px
-                    }
-                  }
-                </style>
-                <blockquote>
-                  <p>
-                    学习JavaScript的时候了解到JavaScript是单线程的，刚开始很疑惑，单线程怎么处理网络请求、文件读写等耗时操作呢？效率岂不是会很低？随着对这方面内容的了解和深入，知道了其中的奥秘。本篇文章就主要讲解一下JavaScript怎么处理异步问题。
-                  </p>
-                </blockquote>
-                <h2 data-id="heading-0">一、同步与异步</h2>
-                <p>在介绍JavaScript的异步机制之前，首先介绍一下：什么是同步？什么是异步？
-                </p>
-                <figure<figcaption>
-                  </figcaption>
-                  </figure>
-                  <p></p>
-                  <h3 data-id="heading-1">同步</h3>
-                  <p>如果在函数返回的时候，调用者就能够得到预期结果(即拿到了预期的返回值或者看到了预期的效果)，那么这个函数就是同步的。</p>
-                  <p>如下所示：</p>
-                  <pre><code lang="bash" class="copyable">//在函数返回时，获得了预期值，即2的平方根
-Math.sqrt(2);
-//在函数返回时，获得了预期的效果，即在控制台上打印了<span>'hello'</span>
-console.log(<span>'hello'</span>);
-<span class="copy-code-btn">复制代码</span></code></pre>
-                  <p>上面两个函数就是同步的。</p>
-                  <p><strong>如果函数是同步的，即使调用函数执行的任务比较耗时，也会一直等待直到得到预期结果。</strong></p>
-                  <h3 data-id="heading-2">异步</h3>
-                  <p>如果在函数返回的时候，调用者还不能够得到预期结果，而是需要在将来通过一定的手段得到，那么这个函数就是异步的。</p>
-                  <p>如下所示：</p>
-                  <pre><code lang="bash" class="copyable">//读取文件
-fs.readFile(<span>'hello.txt'</span>, <span>'utf8'</span>, <span>function</span>(err, data) {
-    console.log(data);
-});
-//网络请求
-var xhr = new XMLHttpRequest();
-xhr.onreadystatechange = xxx; // 添加回调函数
-xhr.open(<span>'GET'</span>, url);
-xhr.send(); // 发起函数
-<span class="copy-code-btn">复制代码</span></code></pre>
-                  <p>上述示例中读取文件函数 <code>readFile</code>和网络请求的发起函数
-                    <code>send</code>都将执行耗时操作，虽然函数会立即返回，但是不能立刻获取预期的结果，因为耗时操作交给其他线程执行，暂时获取不到预期结果（后面介绍）。而在JavaScript中通过回调函数
-                    <code>function(err, data) { console.log(data); }</code>和 <code>onreadystatechange</code>
-                    ，在耗时操作执行完成后把相应的结果信息传递给回调函数，通知执行JavaScript代码的线程执行回调。</p>
-                  <p><strong>如果函数是异步的，发出调用之后，马上返回，但是不会马上返回预期结果。调用者不必主动等待，当被调用者得到结果之后会通过回调函数主动通知调用者。</strong></p>
-                  <h2 data-id="heading-3">二、单线程与多线程</h2>
-                  <p></p>
-                  <figure>
-                    <figcaption></figcaption>
-                  </figure>
-                  在上面介绍异步的过程中就可能会纳闷：既然JavaScript是单线程，怎么还存在异步，那些耗时操作到底交给谁去执行了？<p></p>
-                  <p>JavaScript其实就是一门语言，说是单线程还是多线程得结合具体运行环境。JS的运行通常是在浏览器中进行的，具体由JS引擎去解析和运行。下面我们来具体了解一下浏览器。</p>
-                  <h3 data-id="heading-4">浏览器</h3>
-                  <p>目前最为流行的浏览器为：Chrome，IE，Safari，FireFox，Opera。浏览器的内核是多线程的。</p>
-                  <p>一个浏览器通常由以下几个常驻的线程：</p>
-                  <ul>
-                    <li>渲染引擎线程：顾名思义，该线程负责页面的渲染</li>
-                    <li>JS引擎线程：负责JS的解析和执行</li>
-                    <li>定时触发器线程：处理定时事件，比如setTimeout, setInterval</li>
-                    <li>事件触发线程：处理DOM事件</li>
-                    <li>异步http请求线程：处理http请求</li>
-                  </ul>
-                  <p>需要注意的是，渲染线程和JS引擎线程是不能同时进行的。渲染线程在执行任务的时候，JS引擎线程会被挂起。因为JS可以操作DOM，若在渲染中JS处理了DOM，浏览器可能就不知所措了。</p>
-                  <h3 data-id="heading-5">JS引擎</h3>
-                  <p>
-                    通常讲到浏览器的时候，我们会说到两个引擎：渲染引擎和JS引擎。渲染引擎就是如何渲染页面，Chrome／Safari／Opera用的是Webkit引擎，IE用的是Trident引擎，FireFox用的是Gecko引擎。不同的引擎对同一个样式的实现不一致，就导致了经常被人诟病的浏览器样式兼容性问题。这里我们不做具体讨论。
-                  </p>
-                  <p>JS引擎可以说是JS虚拟机，负责JS代码的解析和执行。通常包括以下几个步骤：</p>
-                  <ul>
-                    <li>词法分析：将源代码分解为有意义的分词</li>
-                    <li>语法分析：用语法分析器将分词解析成语法树</li>
-                    <li>代码生成：生成机器能运行的代码</li>
-                    <li>代码执行</li>
-                  </ul>
-                  <p>不同浏览器的JS引擎也各不相同，Chrome用的是V8，FireFox用的是SpiderMonkey，Safari用的是JavaScriptCore，IE用的是Chakra。</p>
-                  <p>之所以说JavaScript是单线程，就是因为浏览器在运行时只开启了一个JS引擎线程来解析和执行JS。那为什么只有一个引擎呢？如果同时有两个线程去操作DOM，浏览器是不是又要不知所措了。</p>
-                  <p><strong>所以，虽然JavaScript是单线程的，可是浏览器内部不是单线程的。一些I/O操作、定时器的计时和事件监听（click,
-                      keydown...）等都是由浏览器提供的其他线程来完成的。</strong></p>
-                  <h2 data-id="heading-6">三、消息队列与事件循环</h2>
-                  <p>通过以上了解，可以知道其实JavaScript也是通过JS引擎线程与浏览器中其他线程交互协作实现异步。但是回调函数具体何时加入到JS引擎线程中执行？执行顺序是怎么样的？</p>
-                  <p>这一切的解释就需要继续了解消息队列和事件循环。
-                  </p>
-                  <figure<figcaption>
-                    </figcaption>
-                    </figure>
-                    如上图所示，左边的栈存储的是同步任务，就是那些能立即执行、不耗时的任务，如变量和函数的初始化、事件的绑定等等那些不需要回调函数的操作都可归为这一类。<p></p>
-                    <p>
-                      右边的堆用来存储声明的变量、对象。下面的队列就是消息队列，一旦某个异步任务有了响应就会被推入队列中。如用户的点击事件、浏览器收到服务的响应和setTimeout中待执行的事件，每个异步任务都和回调函数相关联。
-                    </p>
-                    <p>JS引擎线程用来执行栈中的同步任务，当所有同步任务执行完毕后，栈被清空，然后读取消息队列中的一个待处理任务，并把相关回调函数压入栈中，单线程开始执行新的同步任务。</p>
-                    <p>JS引擎线程从消息队列中读取任务是不断循环的，每次栈被清空后，都会在消息队列中读取新的任务，如果没有新的任务，就会等待，直到有新的任务，这就叫事件循环。
-                    </p>
-                    <figure>
-                      <figcaption></figcaption>
-                    </figure>
-                    上图以AJAX异步请求为例，发起异步任务后，由AJAX线程执行耗时的异步操作，而JS引擎线程继续执行堆中的其他同步任务，直到堆中的所有异步任务执行完毕。然后，从消息队列中依次按照顺序取出消息作为一个同步任务在JS引擎线程中执行，那么AJAX的回调函数就会在某一时刻被调用执行。
-                    <p></p>
-                    <h2 data-id="heading-7">四、示例</h2>
-                    <p>引用一篇文章中提到的考察JavaScript异步机制的面试题来具体介绍。</p>
-                    <blockquote>
-                      <p>执行下面这段代码，执行后，在 5s 内点击两下，过一段时间（&gt;5s）后，再点击两下，整个过程的输出结果是什么？</p>
-                    </blockquote>
-                    <pre><code lang="bash" class="copyable"><span>set</span>Timeout(<span><span>function</span></span>(){
-    <span>for</span>(var i = 0; i &lt; 100000000; i++){}
-    console.log(<span>'timer a'</span>);
-}, 0)
+            <h3 data-id="heading-1">什么是执行上下文？</h3>
+            <p>简而言之，执行上下文是评估和执行 JavaScript 代码的环境的抽象概念。每当 Javascript 代码在运行的时候，它都是在执行上下文中运行。</p>
+            <h4 data-id="heading-2">执行上下文的类型</h4>
+            <p>JavaScript 中有三种执行上下文类型。</p>
+            <ul>
+              <li><strong>全局执行上下文</strong> — 这是默认或者说基础的上下文，任何不在函数内部的代码都在全局上下文中。它会执行两件事：创建一个全局的 window 对象（浏览器的情况下），并且设置
+                <code>this</code> 的值等于这个全局对象。一个程序中只会有一个全局执行上下文。
+              </li>
+              <li><strong>函数执行上下文</strong> — 每当一个函数被调用时,
+                都会为该函数创建一个新的上下文。每个函数都有它自己的执行上下文，不过是在函数被调用时创建的。函数上下文可以有任意多个。每当一个新的执行上下文被创建，它会按定义的顺序（将在后文讨论）执行一系列步骤。</li>
+              <li><strong>Eval 函数执行上下文</strong> — 执行在 <code>eval</code> 函数内部的代码也会有它属于自己的执行上下文，但由于 JavaScript 开发者并不经常使用
+                <code>eval</code>，所以在这里我不会讨论它。
+              </li>
+            </ul>
+            <h3 data-id="heading-3">执行栈</h3>
+            <p>执行栈，也就是在其它编程语言中所说的“调用栈”，是一种拥有 LIFO（后进先出）数据结构的栈，被用来存储代码运行时创建的所有执行上下文。</p>
+            <p>当 JavaScript 引擎第一次遇到你的脚本时，它会创建一个全局的执行上下文并且压入当前执行栈。每当引擎遇到一个函数调用，它会为该函数创建一个新的执行上下文并压入栈的顶部。</p>
+            <p>引擎会执行那些执行上下文位于栈顶的函数。当该函数执行结束时，执行上下文从栈中弹出，控制流程到达当前栈中的下一个上下文。</p>
+            <p>让我们通过下面的代码示例来理解：</p>
+            <pre><code lang="bash" class="copyable"><span>let</span> a = <span>'Hello World!'</span>;
 
-<span>for</span>(var j = 0; j &lt; 5; j++){
-    console.log(j);
+<span>function</span> <span><span>first</span></span>() {
+  console.log(<span>'Inside first function'</span>);
+  second();
+  console.log(<span>'Again inside first function'</span>);
 }
 
-<span>set</span>Timeout(<span><span>function</span></span>(){
-    console.log(<span>'timer b'</span>);
-}, 0)
-
-<span>function</span> <span><span>waitFiveSeconds</span></span>(){
-    var now = (new Date()).getTime();
-    <span>while</span>(((new Date()).getTime() - now) &lt; 5000){}
-    console.log(<span>'finished waiting'</span>);
+<span>function</span> <span><span>second</span></span>() {
+  console.log(<span>'Inside second function'</span>);
 }
 
-document.addEventListener(<span>'click'</span>, <span><span>function</span></span>(){
-    console.log(<span>'click'</span>);
-})
+first();
+console.log(<span>'Inside Global Execution Context'</span>);
+<span class="copy-code-btn"></span></code></pre>
+            <p>上述代码的执行上下文栈。</p>
+            <p>当上述代码在浏览器加载时，JavaScript 引擎创建了一个全局执行上下文并把它压入当前执行栈。当遇到 <code>first()</code> 函数调用时，JavaScript
+              引擎为该函数创建一个新的执行上下文并把它压入当前执行栈的顶部。</p>
+            <p>当从 <code>first()</code> 函数内部调用 <code>second()</code> 函数时，JavaScript 引擎为 <code>second()</code>
+              函数创建了一个新的执行上下文并把它压入当前执行栈的顶部。当 <code>second()</code> 函数执行完毕，它的执行上下文会从当前栈弹出，并且控制流程到达下一个执行上下文，即
+              <code>first()</code> 函数的执行上下文。
+            </p>
+            <p>当 <code>first()</code> 执行完毕，它的执行上下文从栈弹出，控制流程到达全局执行上下文。一旦所有代码执行完毕，JavaScript 引擎从当前栈中移除全局执行上下文。</p>
+            <h3 data-id="heading-4">怎么创建执行上下文？</h3>
+            <p>到现在，我们已经看过 JavaScript 怎样管理执行上下文了，现在让我们了解 JavaScript 引擎是怎样创建执行上下文的。</p>
+            <p>创建执行上下文有两个阶段：<strong>1) 创建阶段</strong> 和 <strong>2) 执行阶段</strong>。</p>
+            <h3 data-id="heading-5">The Creation Phase</h3>
+            <p>在 JavaScript 代码执行前，执行上下文将经历创建阶段。在创建阶段会发生三件事：</p>
+            <ol>
+              <li><strong>this</strong> 值的决定，即我们所熟知的 <strong>This 绑定</strong>。</li>
+              <li>创建<strong>词法环境</strong>组件。</li>
+              <li>创建<strong>变量环境</strong>组件。</li>
+            </ol>
+            <p>所以执行上下文在概念上表示如下：</p>
+            <pre><code lang="bash" class="copyable">ExecutionContext = {
+  ThisBinding = &lt;this value&gt;,
+  LexicalEnvironment = { ... },
+  VariableEnvironment = { ... },
+}
+<span class="copy-code-btn"></span></code></pre>
+            <h4 data-id="heading-6"><strong>This 绑定：</strong></h4>
+            <p>在全局执行上下文中，<code>this</code> 的值指向全局对象。(在浏览器中，<code>this</code>引用 Window 对象)。</p>
+            <p>在函数执行上下文中，<code>this</code> 的值取决于该函数是如何被调用的。如果它被一个引用对象调用，那么 <code>this</code> 会被设置成那个对象，否则
+              <code>this</code> 的值被设置为全局对象或者 <code>undefined</code>（在严格模式下）。例如：
+            </p>
+            <pre><code lang="bash" class="copyable"><span>let</span> foo = {
+  baz: <span><span>function</span></span>() {
+  console.log(this);
+  }
+}
 
-console.log(<span>'click begin'</span>);
-<span>wait</span>FiveSeconds();
-<span class="copy-code-btn">复制代码</span></code></pre>
-                    <p>要想了解上述代码的输出结果，首先介绍下定时器。</p>
-                    <p>
-                      <code>setTimeout</code>的作用是在间隔一定的时间后，将回调函数插入消息队列中，等栈中的同步任务都执行完毕后，再执行。因为栈中的同步任务也会耗时，<strong>所以间隔的时间一般会大于等于指定的时间</strong>。
-                    </p>
-                    <p><code>setTimeout(fn, 0)</code>的意思是，将回调函数fn立刻插入消息队列，等待执行，而不是立即执行。看一个例子：</p>
-                    <pre><code lang="bash" class="copyable"><span>set</span>Timeout(<span><span>function</span></span>() {
-    console.log(<span>"a"</span>)
-}, 0)
+foo.baz();   // <span>'this'</span> 引用 <span>'foo'</span>, 因为 <span>'baz'</span> 被
+             // 对象 <span>'foo'</span> 调用
 
-<span>for</span>(<span>let</span> i=0; i&lt;10000; i++) {}
-console.log(<span>"b"</span>)
-<span class="copy-code-btn">复制代码</span></code></pre>
-                    <pre><code lang="bash" class="copyable">b  a
-<span class="copy-code-btn">复制代码</span></code></pre>
-                    <p>打印结果表明回调函数并没有立刻执行，而是等待栈中的任务执行完毕后才执行的。栈中的任务执行多久，它就得等多久。</p>
-                    <p>理解了定时器的作用，那么对于输出结果就容易得出了。</p>
-                    <p>首先，先执行同步任务。其中<code>waitFiveSeconds</code>是耗时操作，持续执行长达5s。</p>
-                    <pre><code lang="bash" class="copyable">0
-1
-2
-3
-4
-click begin
-finished waiting
-<span class="copy-code-btn">复制代码</span></code></pre>
-                    <p>然后，在JS引擎线程执行的时候，'timer a'对应的定时器产生的回调、 'timer b'对应的定时器产生的回调和两次 click
-                      对应的回调被先后放入消息队列。由于JS引擎线程空闲后，会<strong>先查看是否有事件可执行</strong>，接着再处理其他异步任务。因此会产生 下面的输出顺序。</p>
-                    <pre><code lang="bash" class="copyable">click
-click
-timer a
-timer b
-<span class="copy-code-btn">复制代码</span></code></pre>
-                    <p>最后，5s 后的两次 click 事件被放入消息队列，由于此时JS引擎线程空闲，便被立即执行了。</p>
-                    <pre><code lang="bash" class="copyable">click
-click
-<span class="copy-code-btn">复制代码</span></code></pre>
+<span>let</span> bar = foo.baz;
+
+bar();       // <span>'this'</span> 指向全局 window 对象，因为
+             // 没有指定引用对象
+<span class="copy-code-btn"></span></code></pre>
+            <h4 data-id="heading-7">词法环境</h4>
+            <p>官方的 ES6文档把词法环境定义为</p>
+            <blockquote>
+              <p><strong>词法环境</strong>是一种规范类型，基于 ECMAScript
+                代码的词法嵌套结构来定义<strong>标识符</strong>和具体变量和函数的关联。一个词法环境由环境记录器和一个可能的引用<strong>外部</strong>词法环境的空值组成。</p>
+            </blockquote>
+            <p>
+              简单来说<strong>词法环境</strong>是一种持有<strong>标识符—变量映射</strong>的结构。（这里的<strong>标识符</strong>指的是变量/函数的名字，而<strong>变量</strong>是对实际对象[包含函数类型对象]或原始数据的引用）。
+            </p>
+            <p>现在，在词法环境的<strong>内部</strong>有两个组件：(1) <strong>环境记录器</strong>和 (2) 一个<strong>外部环境的引用</strong>。</p>
+            <ol>
+              <li><strong>环境记录器</strong>是存储变量和函数声明的实际位置。</li>
+              <li><strong>外部环境的引用</strong>意味着它可以访问其父级词法环境（作用域）。</li>
+            </ol>
+            <p><strong>词法环境</strong>有两种类型：</p>
+            <ul>
+              <li><strong>全局环境</strong>（在全局执行上下文中）是没有外部环境引用的词法环境。全局环境的外部环境引用是 <strong>null</strong>。它拥有内建的
+                Object/Array/等、在环境记录器内的原型函数（关联全局对象，比如 window 对象）还有任何用户定义的全局变量，并且 <code>this</code>的值指向全局对象。</li>
+              <li>在<strong>函数环境</strong>中，函数内部用户定义的变量存储在<strong>环境记录器</strong>中。并且引用的外部环境可能是全局环境，或者任何包含此内部函数的外部函数。</li>
+            </ul>
+            <p><strong>环境记录器</strong>也有两种类型（如上！）：</p>
+            <ol>
+              <li><strong>声明式环境记录器</strong>存储变量、函数和参数。</li>
+              <li><strong>对象环境记录器</strong>用来定义出现在<strong>全局上下文</strong>中的变量和函数的关系。</li>
+            </ol>
+            <p>简而言之，</p>
+            <ul>
+              <li>在<strong>全局环境</strong>中，环境记录器是对象环境记录器。</li>
+              <li>在<strong>函数环境</strong>中，环境记录器是声明式环境记录器。</li>
+            </ul>
+            <p><strong>注意 —</strong> 对于<strong>函数环境</strong>，<strong>声明式环境记录器</strong>还包含了一个传递给函数的
+              <code>arguments</code> 对象（此对象存储索引和参数的映射）和传递给函数的参数的 <strong>length</strong>。
+            </p>
+            <p>抽象地讲，词法环境在伪代码中看起来像这样：</p>
+            <pre><code lang="bash" class="copyable">GlobalExectionContext = {
+  LexicalEnvironment: {
+    EnvironmentRecord: {
+      Type: <span>"Object"</span>,
+      // 在这里绑定标识符
+    }
+    outer: &lt;null&gt;
+  }
+}
+
+FunctionExectionContext = {
+  LexicalEnvironment: {
+    EnvironmentRecord: {
+      Type: <span>"Declarative"</span>,
+      // 在这里绑定标识符
+    }
+    outer: &lt;Global or outer <span>function</span> environment reference&gt;
+  }
+}
+<span class="copy-code-btn"></span></code></pre>
+            <h4 data-id="heading-8">变量环境：</h4>
+            <p>它同样是一个词法环境，其环境记录器持有<strong>变量声明语句</strong>在执行上下文中创建的绑定关系。</p>
+            <p>如上所述，变量环境也是一个词法环境，所以它有着上面定义的词法环境的所有属性。</p>
+            <p>在 ES6 中，<strong>词法环境</strong>组件和<strong>变量环境</strong>的一个不同就是前者被用来存储函数声明和变量（<code>let</code> 和
+              <code>const</code>）绑定，而后者只用来存储 <code>var</code> 变量绑定。
+            </p>
+            <p>我们看点样例代码来理解上面的概念：</p>
+            <pre><code lang="bash" class="copyable"><span>let</span> a = 20;
+const b = 30;
+var c;
+
+<span>function</span> multiply(e, f) {
+ var g = 20;
+ <span>return</span> e * f * g;
+}
+
+c = multiply(20, 30);
+<span class="copy-code-btn"></span></code></pre>
+            <p>执行上下文看起来像这样：</p>
+            <pre><code lang="bash" class="copyable">GlobalExectionContext = {
+
+  ThisBinding: &lt;Global Object&gt;,
+
+  LexicalEnvironment: {
+    EnvironmentRecord: {
+      Type: <span>"Object"</span>,
+      // 在这里绑定标识符
+      a: &lt; uninitialized &gt;,
+      b: &lt; uninitialized &gt;,
+      multiply: &lt; func &gt;
+    }
+    outer: &lt;null&gt;
+  },
+
+  VariableEnvironment: {
+    EnvironmentRecord: {
+      Type: <span>"Object"</span>,
+      // 在这里绑定标识符
+      c: undefined,
+    }
+    outer: &lt;null&gt;
+  }
+}
+
+FunctionExectionContext = {
+  ThisBinding: &lt;Global Object&gt;,
+
+  LexicalEnvironment: {
+    EnvironmentRecord: {
+      Type: <span>"Declarative"</span>,
+      // 在这里绑定标识符
+      Arguments: {0: 20, 1: 30, length: 2},
+    },
+    outer: &lt;GlobalLexicalEnvironment&gt;
+  },
+
+VariableEnvironment: {
+    EnvironmentRecord: {
+      Type: <span>"Declarative"</span>,
+      // 在这里绑定标识符
+      g: undefined
+    },
+    outer: &lt;GlobalLexicalEnvironment&gt;
+  }
+}
+<span class="copy-code-btn"></span></code></pre>
+            <p><strong>注意</strong> — 只有遇到调用函数 <code>multiply</code> 时，函数执行上下文才会被创建。</p>
+            <p>可能你已经注意到 <code>let</code> 和 <code>const</code> 定义的变量并没有关联任何值，但 <code>var</code> 定义的变量被设成了
+              <code>undefined</code>。
+            </p>
+            <p>这是因为在创建阶段时，引擎检查代码找出变量和函数声明，虽然函数声明完全存储在环境中，但是变量最初设置为 <code>undefined</code>（<code>var</code>
+              情况下），或者未初始化（<code>let</code> 和 <code>const</code> 情况下）。</p>
+            <p>这就是为什么你可以在声明之前访问 <code>var</code> 定义的变量（虽然是 <code>undefined</code>），但是在声明之前访问 <code>let</code> 和
+              <code>const</code> 的变量会得到一个引用错误。
+            </p>
+            <p>这就是我们说的变量声明提升。</p>
+            <h3 data-id="heading-9">执行阶段</h3>
+            <p>这是整篇文章中最简单的部分。在此阶段，完成对所有这些变量的分配，最后执行代码。</p>
+            <p><strong>注意</strong> — 在执行阶段，如果 JavaScript 引擎不能在源码中声明的实际位置找到 <code>let</code> 变量的值，它会被赋值为
+              <code>undefined</code>。
+            </p>
+            <h3 data-id="heading-10">结论</h3>
+            <p>我们已经讨论过 JavaScript 程序内部是如何执行的。虽然要成为一名卓越的 JavaScript
+              开发者并不需要学会全部这些概念，但是如果对上面概念能有不错的理解将有助于你更轻松，更深入地理解其他概念，如变量声明提升，作用域和闭包。</p>
+            <p>就是这样，如果你发现这篇文章有用，请点击 👏 按钮并在下面自由地评论！我很乐意和你讨论 😃。</p>
+            <hr>
+
+
       </article>
 
 
